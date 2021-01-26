@@ -2,11 +2,26 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:sharegroups/models/ModelPost.dart';
 
-class ListaDeGruposTile extends StatelessWidget {
-  ModelPost post;
-  int i;
+class ListaDeGruposTile extends StatefulWidget {
+QueryDocumentSnapshot snapshot;
 
-  ListaDeGruposTile(this.post, this.i);
+
+  ListaDeGruposTile(this.snapshot);
+
+  @override
+  _ListaDeGruposTileState createState() => _ListaDeGruposTileState();
+}
+
+class _ListaDeGruposTileState extends State<ListaDeGruposTile> {
+  ModelPost post;
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    post = ModelPost.fromMap(widget.snapshot.data());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +34,8 @@ class ListaDeGruposTile extends StatelessWidget {
         color: Colors.green,
         child: Center(
           child: ListTile(
-            title: Text(post.descricao[i]),
+            title: Text(post.nome_grupo.toUpperCase(), style: TextStyle(color: Colors.white, fontSize: 19,),),
+            leading: Icon(Icons.link, color: Colors.white,),
           ),
         ),
       ),

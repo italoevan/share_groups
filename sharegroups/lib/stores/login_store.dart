@@ -26,4 +26,16 @@ abstract class _LoginStore with Store {
 
   @action
   void changeVisible() => visible = !visible;
+
+  @observable
+  bool carregando = false;
+
+  @action
+  void changeCarregando()=> carregando = !carregando;
+
+  @observable
+  String erro = "";
+
+  @action
+  void setErro(value) => erro = value;
 }

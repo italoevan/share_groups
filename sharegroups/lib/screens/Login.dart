@@ -11,14 +11,13 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  LoginStore loginStore;
+  LoginStore loginStore = LoginStore();
   FirebaseAuth auth = FirebaseAuth.instance;
 
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
-    loginStore = Provider.of<LoginStore>(context);
   }
 
   @override
@@ -30,33 +29,32 @@ class _LoginState extends State<Login> {
       body: Stack(
         children: [
           Container(
-            color:  Theme.of(context).primaryColor,
+            color: Theme.of(context).primaryColor,
           ),
           Align(
             alignment: Alignment.center,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Observer(
-                  builder: (_) {
-                    return TextField(
-                      decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Colors.white,
-                          labelText: "Email"),
-                      onChanged: loginStore.setEmail,
-                    );
-                  },
+                TextField(
+                  decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white,
+                      labelText: "Email"),
+                  onChanged: loginStore.setEmail,
                 ),
                 Observer(builder: (_) {
                   return TextField(
+                    obscureText: !loginStore.visible,
                     decoration: InputDecoration(
                         suffixIcon: IconButton(
                             icon: Icon(
                               Icons.remove_red_eye_sharp,
                               color: Colors.grey,
                             ),
-                            onPressed: () {}),
+                            onPressed: () {
+                              loginStore.changeVisible();
+                            }),
                         filled: true,
                         fillColor: Colors.white,
                         labelText: "Senha"),
@@ -72,7 +70,8 @@ class _LoginState extends State<Login> {
                       child: RaisedButton(
                         onPressed: () {
                           Autenticacao.LogarUsuario(auth, loginStore.email,
-                              loginStore.senha, context);
+                              loginStore.senha, context, loginStore);
+
                           print(loginStore.email);
                         },
                         child: Text("Logar"),
@@ -87,6 +86,25 @@ class _LoginState extends State<Login> {
                           child: Text("Cadastrar")),
                     ),
                   ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Observer(builder: (_) {
+                  return loginStore.carregando
+                      ? CircularProgressIndicator(
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Colors.green),
+                        )
+                      : Container();
+                }),
+                Observer(
+                  builder: (_) {
+                    return Text(
+                      loginStore.erro,
+                      style: TextStyle(color: Colors.red, fontSize: 22),
+                    );
+                  },
                 )
               ],
             ),

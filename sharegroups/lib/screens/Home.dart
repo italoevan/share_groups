@@ -77,30 +77,39 @@ class _HomeState extends State<Home> {
               future: getTiles(firestore).then((value) => documents = value),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
-                  return Center(child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.green),));
+                  return Center(
+                      child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
+                  ));
                 } else {
                   return ListView.builder(
                     itemCount: documents.length,
                     itemBuilder: (context, i) {
                       return GestureDetector(
-                        onTap: () {
-                          getQuerySnapshot(i).then((value) {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ListaDeGrupos(
-                                        documents[i].id.toString(), value, documents[i].data()['img'].toString())));
-                          });
-                        },
-                        child: HomeTile(  documents[i].id.toString(), context, documents[i].data()['img'])
-                        /*
+                          onTap: () {
+
+                            getDisponiveis(i).then((value) {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ListaDeGrupos(
+                                          documents[i].id.toString(),
+                                          value,
+                                          documents[i]
+                                              .data()['img']
+                                              .toString())));
+                            });
+                          },
+                          child: HomeTile(documents[i].id.toString(), context,
+                              documents[i].data()['img'])
+                          /*
                         Text(
                           documents[i].id.toString(),
                           style: TextStyle(color: Colors.white),
                         ),
 
                          */
-                      );
+                          );
                     },
                   );
                 }
@@ -113,7 +122,7 @@ class _HomeState extends State<Home> {
   Future waitFire() async {
     fireHelper = await FireHelper.dadosToStoreGeral(auth, firestore);
     usuario = fireHelper;
-    return fireHelper;
+    return usuario;
   }
 
   static Future<List<DocumentSnapshot>> getTiles(
@@ -123,6 +132,31 @@ class _HomeState extends State<Home> {
     List<DocumentSnapshot> list = querySnapshot.docs;
 
     return list;
+  }
+
+  Future<QuerySnapshot> getDisponiveis(int i) async {
+
+    QuerySnapshot finalSnapshot ;
+    QuerySnapshot snapshot = await firestore
+        .collection('posts')
+        .doc("${documents[i].id.toString()}")
+        .collection('lista')
+        .get()
+        .then((value) {
+      value.docs.forEach((element) {
+        if(element.data()['disponivel'] != null){
+          /*element.data().
+          finalSnapshot =
+          
+           */
+
+        }else{
+
+        }
+      });
+    });
+    return finalSnapshot;
+
   }
 
   Future<QuerySnapshot> getQuerySnapshot(int i) async {

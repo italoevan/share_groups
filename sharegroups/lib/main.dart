@@ -23,18 +23,18 @@ class FirstScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        Provider<LoginStore>(create: (_) => LoginStore()),
-        Provider<CadastroStore>(create: (_)=>CadastroStore(),),
-        Provider<StoreGeral>(create: (_)=> StoreGeral() ,)
-
+        Provider<CadastroStore>(
+          create: (_) => CadastroStore(),
+        ),
+        Provider<StoreGeral>(
+          create: (_) => StoreGeral(),
+        )
       ],
       child: MaterialApp(
         home: autenticacao.usuarioLogado(auth) ? Home() : Login(),
         routes: Routes().routes,
         theme: ThemeData(
-          primaryColor: Color(0xff121212),
-          accentColor: Color(0xff404040)
-        ),
+            primaryColor: Color(0xff121212), accentColor: Color(0xff404040)),
       ),
     );
   }

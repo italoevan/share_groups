@@ -54,6 +54,36 @@ mixin _$LoginStore on _LoginStore, Store {
     });
   }
 
+  final _$carregandoAtom = Atom(name: '_LoginStore.carregando');
+
+  @override
+  bool get carregando {
+    _$carregandoAtom.reportRead();
+    return super.carregando;
+  }
+
+  @override
+  set carregando(bool value) {
+    _$carregandoAtom.reportWrite(value, super.carregando, () {
+      super.carregando = value;
+    });
+  }
+
+  final _$erroAtom = Atom(name: '_LoginStore.erro');
+
+  @override
+  String get erro {
+    _$erroAtom.reportRead();
+    return super.erro;
+  }
+
+  @override
+  set erro(String value) {
+    _$erroAtom.reportWrite(value, super.erro, () {
+      super.erro = value;
+    });
+  }
+
   final _$_LoginStoreActionController = ActionController(name: '_LoginStore');
 
   @override
@@ -90,11 +120,35 @@ mixin _$LoginStore on _LoginStore, Store {
   }
 
   @override
+  void changeCarregando() {
+    final _$actionInfo = _$_LoginStoreActionController.startAction(
+        name: '_LoginStore.changeCarregando');
+    try {
+      return super.changeCarregando();
+    } finally {
+      _$_LoginStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setErro(dynamic value) {
+    final _$actionInfo =
+        _$_LoginStoreActionController.startAction(name: '_LoginStore.setErro');
+    try {
+      return super.setErro(value);
+    } finally {
+      _$_LoginStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 email: ${email},
 senha: ${senha},
-visible: ${visible}
+visible: ${visible},
+carregando: ${carregando},
+erro: ${erro}
     ''';
   }
 }
