@@ -9,6 +9,27 @@ part of 'cadastro_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$CadastroStore on _CadastroStore, Store {
+  Computed<bool> _$emailComputedComputed;
+
+  @override
+  bool get emailComputed =>
+      (_$emailComputedComputed ??= Computed<bool>(() => super.emailComputed,
+              name: '_CadastroStore.emailComputed'))
+          .value;
+  Computed<bool> _$apelidoComputedComputed;
+
+  @override
+  bool get apelidoComputed =>
+      (_$apelidoComputedComputed ??= Computed<bool>(() => super.apelidoComputed,
+              name: '_CadastroStore.apelidoComputed'))
+          .value;
+  Computed<bool> _$senhaComputedComputed;
+
+  @override
+  bool get senhaComputed =>
+      (_$senhaComputedComputed ??= Computed<bool>(() => super.senhaComputed,
+              name: '_CadastroStore.senhaComputed'))
+          .value;
   Computed<bool> _$doneComputed;
 
   @override
@@ -91,6 +112,36 @@ mixin _$CadastroStore on _CadastroStore, Store {
     });
   }
 
+  final _$erroAtom = Atom(name: '_CadastroStore.erro');
+
+  @override
+  String get erro {
+    _$erroAtom.reportRead();
+    return super.erro;
+  }
+
+  @override
+  set erro(String value) {
+    _$erroAtom.reportWrite(value, super.erro, () {
+      super.erro = value;
+    });
+  }
+
+  final _$carregandoAtom = Atom(name: '_CadastroStore.carregando');
+
+  @override
+  bool get carregando {
+    _$carregandoAtom.reportRead();
+    return super.carregando;
+  }
+
+  @override
+  set carregando(bool value) {
+    _$carregandoAtom.reportWrite(value, super.carregando, () {
+      super.carregando = value;
+    });
+  }
+
   final _$_CadastroStoreActionController =
       ActionController(name: '_CadastroStore');
 
@@ -150,6 +201,28 @@ mixin _$CadastroStore on _CadastroStore, Store {
   }
 
   @override
+  void setErro(String value) {
+    final _$actionInfo = _$_CadastroStoreActionController.startAction(
+        name: '_CadastroStore.setErro');
+    try {
+      return super.setErro(value);
+    } finally {
+      _$_CadastroStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void changeCarregando() {
+    final _$actionInfo = _$_CadastroStoreActionController.startAction(
+        name: '_CadastroStore.changeCarregando');
+    try {
+      return super.changeCarregando();
+    } finally {
+      _$_CadastroStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 email: ${email},
@@ -157,6 +230,11 @@ apelido: ${apelido},
 id: ${id},
 senha: ${senha},
 visible: ${visible},
+erro: ${erro},
+carregando: ${carregando},
+emailComputed: ${emailComputed},
+apelidoComputed: ${apelidoComputed},
+senhaComputed: ${senhaComputed},
 done: ${done}
     ''';
   }

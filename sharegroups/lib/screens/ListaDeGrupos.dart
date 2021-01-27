@@ -7,7 +7,7 @@ import 'package:sharegroups/widgets/tiles/ListaDeGruposTile.dart';
 
 class ListaDeGrupos extends StatefulWidget {
   String nomeTag;
-  QuerySnapshot querySnapshot;
+  List<QueryDocumentSnapshot> querySnapshot = [];
   String img;
   ListaDeGrupos(this.nomeTag, this.querySnapshot, this.img);
   @override
@@ -23,7 +23,7 @@ class _ListaDeGruposState extends State<ListaDeGrupos> {
     // TODO: implement initState
     print("ListaDeGrupos()");
     super.initState();
-    data = widget.querySnapshot.docs;
+    data = widget.querySnapshot;
   }
 
   @override
@@ -70,7 +70,7 @@ class _ListaDeGruposState extends State<ListaDeGrupos> {
           )
         ],
       ),
-      body: widget.querySnapshot.docs.length != 0
+      body: widget.querySnapshot.length != 0
           ? ListView.builder(
               itemBuilder: (context, i) {
                 return GestureDetector(

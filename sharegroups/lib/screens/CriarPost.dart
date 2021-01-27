@@ -23,6 +23,7 @@ class _CriarPostState extends State<CriarPost> {
   StoreGeral storeGeral;
   StoreCriarPost storeCriarPost = StoreCriarPost();
   ModelPost post;
+  GlobalKey<ScaffoldState> key = GlobalKey<ScaffoldState>();
 
   @override
   void didChangeDependencies() {
@@ -34,6 +35,7 @@ class _CriarPostState extends State<CriarPost> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: key,
       appBar: AppBar(
         title: Text("Criar Post em ${widget.tagname}"),
         centerTitle: true,
@@ -76,13 +78,15 @@ class _CriarPostState extends State<CriarPost> {
                     RaisedButton(
                       onPressed: storeCriarPost.done
                           ? () {
-                             storeCriarPost.changeBool();
-                             Postar();
+                              storeCriarPost.changeBool();
+                              Postar(context);
                             }
                           : null,
                       child: Text("Salvar"),
                     ),
-                    storeCriarPost.carregando ? CircularProgressIndicator() : Container()
+                    storeCriarPost.carregando
+                        ? CircularProgressIndicator()
+                        : Container()
                   ],
                 ),
               );
@@ -93,26 +97,37 @@ class _CriarPostState extends State<CriarPost> {
     );
   }
 
-  void Postar(){
-   var value =  ModelPost(
+  void Postar(BuildContext context) {
+    var value = ModelPost(
       nome_grupo: storeCriarPost.nome_grupo,
       apelido: storeGeral.apelido,
       data: SalvarData(),
       link_grupo: storeCriarPost.link_grupo,
       descricao: storeCriarPost.descricao,
-      email: storeGeral.email
+      email: storeGeral.email,
     ).toJson();
 
-
-    firestore.collection('posts').doc(widget.tagname).collection('lista').doc(SalvarData()).set(value).then((value) {
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>Home()), (route) => false);
-    } );
-
+    firestore
+        .collection('posts')
+        .doc(widget.tagname)
+        .collection('lista')
+        .doc(SalvarData())
+        .set(value)
+        .then((value) {
+          storeCriarPost.changeBool();
+          Navigator.pushAndRemoveUntil(context,
+          MaterialPageRoute(builder: (context) => Home()), (route) => false);
+          return showDialog(context: context, builder: (context){
+            return AlertDialog(
+              content: Container(child:Text("Concluido, agora espere a moderação verificar se seu grupo cumpre com os requisitos necessários.")),
+              
+            );
+          });
+    });
   }
 
   String SalvarData() {
-
     String date = Timestamp.now().toString();
-   return date;
+    return date;
   }
 }

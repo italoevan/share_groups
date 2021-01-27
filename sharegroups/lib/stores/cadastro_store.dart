@@ -37,5 +37,29 @@ abstract class _CadastroStore with Store {
   void changeVisible() => visible = !visible;
 
   @computed
-  bool get done => email.length > 6 && apelido.length > 5 && senha.length > 5;
+  bool get emailComputed=> email.length >10 && email.length < 26;
+
+  @computed
+  bool get apelidoComputed =>apelido.length > 3 && apelido.length < 12;
+
+  @computed
+  bool get senhaComputed => senha.length > 3 && senha.length < 10;
+
+  @computed
+  bool get done => emailComputed && apelidoComputed;
+
+  @observable
+  String erro = "";
+
+  @action
+  void setErro(String value) =>erro=value;
+
+  @observable
+  bool carregando = false;
+
+  @action
+  void changeCarregando()=> carregando = !carregando;
+
+
+
 }

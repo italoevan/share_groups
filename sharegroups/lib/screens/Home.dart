@@ -8,6 +8,7 @@ import 'package:sharegroups/stores/cadastro_store.dart';
 import 'package:sharegroups/stores/storeGeral.dart';
 import 'package:sharegroups/widgets/CustomDrawer.dart';
 import 'package:sharegroups/widgets/tiles/HomeTile.dart';
+import 'package:sharegroups/models/ModelPost.dart';
 
 import 'ListaDeGrupos.dart';
 
@@ -56,7 +57,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       drawer: CustomDrawer(),
       appBar: AppBar(
-        title: Text("Home"),
+        title: Text("Início".toUpperCase()),
         centerTitle: true,
         elevation: 0,
         actions: [
@@ -87,7 +88,7 @@ class _HomeState extends State<Home> {
                     itemBuilder: (context, i) {
                       return GestureDetector(
                           onTap: () {
-
+                            
                             getDisponiveis(i).then((value) {
                               Navigator.push(
                                   context,
@@ -134,29 +135,26 @@ class _HomeState extends State<Home> {
     return list;
   }
 
-  Future<QuerySnapshot> getDisponiveis(int i) async {
+  Future<List<QueryDocumentSnapshot>> getDisponiveis(int i) async {
+    List<QueryDocumentSnapshot> filtered = [];
 
-    QuerySnapshot finalSnapshot ;
-    QuerySnapshot snapshot = await firestore
+    QuerySnapshot querySnapshot = await firestore
         .collection('posts')
         .doc("${documents[i].id.toString()}")
         .collection('lista')
+        .orderBy('data', descending: true)
+        .limit(40)
+        .where('disponivel', isNotEqualTo: null)
         .get()
         .then((value) {
       value.docs.forEach((element) {
-        if(element.data()['disponivel'] != null){
-          /*element.data().
-          finalSnapshot =
-          
-           */
-
-        }else{
-
+        if (element.data()['disponivel'] == true) {
+          filtered.add(element);
         }
       });
     });
-    return finalSnapshot;
 
+    return filtered;
   }
 
   Future<QuerySnapshot> getQuerySnapshot(int i) async {

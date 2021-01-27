@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:sharegroups/helper/FireHelper.dart';
+import 'package:sharegroups/stores/cadastro_store.dart';
 import 'package:sharegroups/stores/login_store.dart';
 
 class Autenticacao {
@@ -15,8 +16,9 @@ class Autenticacao {
     }
   }
 
-  static void CadastrarUsuario(FirebaseFirestore firestore, FirebaseAuth auth,
+  static void CadastrarUsuario(CadastroStore store,FirebaseFirestore firestore, FirebaseAuth auth,
       String email, String senha, String apelido, BuildContext context) {
+        store.changeCarregando();
     String erro;
     auth
         .createUserWithEmailAndPassword(email: email, password: senha)
@@ -32,7 +34,9 @@ class Autenticacao {
     })
           ..catchError((error) {
             erro = error.toString();
+            store.setErro(erro);
             print(erro);
+             store.changeCarregando();
           });
   }
 

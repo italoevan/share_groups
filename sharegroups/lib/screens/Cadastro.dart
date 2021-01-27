@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:sharegroups/helper/autenticacao.dart';
 
 import 'package:sharegroups/stores/cadastro_store.dart';
+import 'package:sharegroups/stores/storeCriarPost.dart';
 
 class Cadastro extends StatefulWidget {
   @override
@@ -17,6 +18,8 @@ class _CadastroState extends State<Cadastro> {
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
+  GlobalKey<ScaffoldState> key = GlobalKey<ScaffoldState>();
+
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
@@ -27,6 +30,7 @@ class _CadastroState extends State<Cadastro> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: key,
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
         elevation: 0,
@@ -47,6 +51,8 @@ class _CadastroState extends State<Cadastro> {
                         children: [
                           TextField(
                             decoration: InputDecoration(
+                                errorText:
+                                    cadastroStore.emailComputed ? null : "Mínimo de 10 letras, max de 26.",
                                 filled: true,
                                 fillColor: Colors.white,
                                 labelText: "Email"),
@@ -54,6 +60,7 @@ class _CadastroState extends State<Cadastro> {
                           ),
                           TextField(
                             decoration: InputDecoration(
+                              errorText: cadastroStore.apelidoComputed ?null : "Mínimo de 3 letras, max de 12.",
                                 filled: true,
                                 fillColor: Colors.white,
                                 labelText: "Apelido"),
@@ -61,6 +68,7 @@ class _CadastroState extends State<Cadastro> {
                           ),
                           TextField(
                             decoration: InputDecoration(
+                              errorText: cadastroStore.senhaComputed ? null : "Mínimo de 3 letras, max de 10.",
                                 suffixIcon: IconButton(
                                     icon: Icon(
                                       Icons.remove_red_eye_sharp,
@@ -91,14 +99,30 @@ class _CadastroState extends State<Cadastro> {
                       return RaisedButton(
                         onPressed: cadastroStore.done
                             ? () {
-                                Autenticacao.CadastrarUsuario(firestore,auth, cadastroStore.email, cadastroStore.senha,cadastroStore.apelido, context);
+                                Autenticacao.CadastrarUsuario(
+                                    cadastroStore,
+                                    firestore,
+                                    auth,
+                                    cadastroStore.email,
+                                    cadastroStore.senha,
+                                    cadastroStore.apelido,
+                                    context);
                               }
-                            : null,
+                            : () {
+                                key.currentState.showSnackBar(SnackBar(
+                                    content: Text(
+                                        "Você não preencheu os requisitos.")));
+                              },
                         child: Text("Cadastrar"),
                       );
                     },
                   ),
-                )
+                ),
+                Divider(color: Colors.transparent,),
+                Observer(builder: (_)=>cadastroStore.carregando ?CircularProgressIndicator() : Container(),),
+                Observer(builder: (_){
+                  return Text("${cadastroStore.erro}", style: TextStyle(fontSize:25, color:Colors.red),);
+                },)
               ],
             ),
           )

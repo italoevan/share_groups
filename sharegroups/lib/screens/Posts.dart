@@ -26,7 +26,7 @@ class _PostsState extends State<Posts> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.modelPost.nome_grupo),
+        title: Text(widget.modelPost.nome_grupo.toUpperCase()),
         elevation: 0,
         centerTitle: true,
       ),

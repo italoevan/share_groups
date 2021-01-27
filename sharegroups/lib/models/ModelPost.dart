@@ -8,7 +8,8 @@ class ModelPost{
   String link_grupo;
   String descricao;
   String email;
-  ModelPost({@required this.nome_grupo,@required this.apelido,@required this.data,@required this.link_grupo,@required this.descricao, @required this.email});
+  bool disponivel;
+  ModelPost({@required this.nome_grupo,@required this.apelido,@required this.data,@required this.link_grupo,@required this.descricao, @required this.email, this.disponivel});
 
 
 ModelPost.fromMap(Map<String, dynamic> map){
