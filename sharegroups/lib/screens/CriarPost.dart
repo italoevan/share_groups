@@ -53,7 +53,9 @@ class _CriarPostState extends State<CriarPost> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     TextField(
+                      
                       decoration: InputDecoration(
+                        errorText:storeCriarPost.nomeGrupoComputed ? null : "O nome do grupo tem que ter entre 5 e 17 letras." ,
                           fillColor: Colors.white,
                           filled: true,
                           labelText: "Nome do Grupo"),
@@ -61,6 +63,7 @@ class _CriarPostState extends State<CriarPost> {
                     ),
                     TextField(
                       decoration: InputDecoration(
+                          errorText: storeCriarPost.linkGrupoComputed ? null :"O link não pode estar vazio.",
                           fillColor: Colors.white,
                           filled: true,
                           labelText: "Link do grupo"),
@@ -70,6 +73,7 @@ class _CriarPostState extends State<CriarPost> {
                       keyboardType: TextInputType.multiline,
                       maxLines: 8,
                       decoration: InputDecoration(
+                        errorText: storeCriarPost.descricaoComputed ? null :"A descrição tem que ter entre 20 e 88 caracteres.",
                           filled: true,
                           fillColor: Colors.white,
                           labelText: "Descricao"),
@@ -81,7 +85,11 @@ class _CriarPostState extends State<CriarPost> {
                               storeCriarPost.changeBool();
                               Postar(context);
                             }
-                          : null,
+                          : (){
+                            
+                            
+
+                          },
                       child: Text("Salvar"),
                     ),
                     storeCriarPost.carregando

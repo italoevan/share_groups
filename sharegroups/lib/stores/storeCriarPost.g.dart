@@ -9,6 +9,27 @@ part of 'storeCriarPost.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$StoreCriarPost on _StoreCriarPost, Store {
+  Computed<bool> _$nomeGrupoComputedComputed;
+
+  @override
+  bool get nomeGrupoComputed => (_$nomeGrupoComputedComputed ??= Computed<bool>(
+          () => super.nomeGrupoComputed,
+          name: '_StoreCriarPost.nomeGrupoComputed'))
+      .value;
+  Computed<bool> _$linkGrupoComputedComputed;
+
+  @override
+  bool get linkGrupoComputed => (_$linkGrupoComputedComputed ??= Computed<bool>(
+          () => super.linkGrupoComputed,
+          name: '_StoreCriarPost.linkGrupoComputed'))
+      .value;
+  Computed<bool> _$descricaoComputedComputed;
+
+  @override
+  bool get descricaoComputed => (_$descricaoComputedComputed ??= Computed<bool>(
+          () => super.descricaoComputed,
+          name: '_StoreCriarPost.descricaoComputed'))
+      .value;
   Computed<bool> _$doneComputed;
 
   @override
@@ -157,6 +178,9 @@ data: ${data},
 link_grupo: ${link_grupo},
 descricao: ${descricao},
 carregando: ${carregando},
+nomeGrupoComputed: ${nomeGrupoComputed},
+linkGrupoComputed: ${linkGrupoComputed},
+descricaoComputed: ${descricaoComputed},
 done: ${done}
     ''';
   }

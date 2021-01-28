@@ -35,7 +35,21 @@ abstract class _StoreCriarPost with Store {
   @action
   void changeBool() => carregando = !carregando;
 
+  @computed
+   bool get nomeGrupoComputed => nome_grupo.length >5 && nome_grupo.length <17 ;
 
   @computed
-  bool get done => nome_grupo.length >5 && nome_grupo.length < 15 && descricao.length > 20 && descricao.length < 88 && link_grupo.isNotEmpty;
+  bool get linkGrupoComputed => link_grupo.isNotEmpty;
+
+  @computed
+  bool get descricaoComputed => descricao.length > 20 && descricao.length < 88 ;
+
+
+
+
+  
+
+  @computed
+  bool get done => nome_grupo.length >5 && nome_grupo.length < 17 && descricao.length > 20 && descricao.length < 88 && link_grupo.isNotEmpty;
+
 }
