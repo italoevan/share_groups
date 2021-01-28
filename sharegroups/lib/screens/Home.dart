@@ -42,6 +42,7 @@ class _HomeState extends State<Home> {
       usuario = value;
       storeGeral.setApelido(usuario.apelido);
       storeGeral.setemail(usuario.email);
+      storeGeral.setId(usuario.id);
     });
   }
 

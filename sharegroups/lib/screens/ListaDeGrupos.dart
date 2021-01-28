@@ -75,12 +75,16 @@ class _ListaDeGruposState extends State<ListaDeGrupos> {
               itemBuilder: (context, i) {
                 return GestureDetector(
                     onTap: () {
+
+                      
+
                       Map<String, dynamic> map = {
                         'nome_grupo': data[i].data()['nome_grupo'],
                         'apelido': data[i].data()['apelido'],
                         'data': data[i].data()['data'],
                         'link_grupo': data[i].data()['link_grupo'],
-                        'descricao': data[i].data()['descricao']
+                        'descricao': data[i].data()['descricao'],
+                        'idUsuario' :data[i].data()['idUsuario']
                       };
 
                       ModelPost post = ModelPost.fromMap(map);

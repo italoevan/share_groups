@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:sharegroups/models/ModelPost.dart';
 
 class ListaDeGruposTile extends StatefulWidget {
-QueryDocumentSnapshot snapshot;
-
+  QueryDocumentSnapshot snapshot;
 
   ListaDeGruposTile(this.snapshot);
 
@@ -14,7 +13,6 @@ QueryDocumentSnapshot snapshot;
 
 class _ListaDeGruposTileState extends State<ListaDeGruposTile> {
   ModelPost post;
-
 
   @override
   void initState() {
@@ -34,9 +32,26 @@ class _ListaDeGruposTileState extends State<ListaDeGruposTile> {
         color: Colors.green,
         child: Center(
           child: ListTile(
-            title: Text(post.nome_grupo.toUpperCase(), style: TextStyle(color: Colors.white, fontSize: 19,),),
-            leading: Icon(Icons.link, color: Colors.white,),
-          ),
+              title: Text(
+                post.nome_grupo.toUpperCase(),
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 19,
+                ),
+              ),
+              leading: Icon(
+                Icons.link,
+                color: Colors.white,
+              ),
+              trailing: Container(
+                padding: EdgeInsets.all(4),
+                decoration: BoxDecoration(
+                    color: Colors.red, borderRadius: BorderRadius.circular(12)),
+                child: Text(
+                  post.apelido,
+                  style: TextStyle(color: Colors.white, fontSize: 18),
+                ),
+              )),
         ),
       ),
     );

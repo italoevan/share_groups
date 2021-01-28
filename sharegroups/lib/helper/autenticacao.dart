@@ -16,10 +16,25 @@ class Autenticacao {
     }
   }
 
-  static void CadastrarUsuario(CadastroStore store,FirebaseFirestore firestore, FirebaseAuth auth,
-      String email, String senha, String apelido, BuildContext context) {
-        store.changeCarregando();
+  static void CadastrarUsuario(
+      CadastroStore store,
+      FirebaseFirestore firestore,
+      FirebaseAuth auth,
+      String email,
+      String senha,
+      String apelido,
+      BuildContext context) {
+    store.changeCarregando();
     String erro;
+
+
+    try{
+
+    }catch(error){
+
+    }
+
+
     auth
         .createUserWithEmailAndPassword(email: email, password: senha)
         .then((value) {
@@ -31,13 +46,12 @@ class Autenticacao {
           email: email);
       Navigator.pushNamedAndRemoveUntil(
           context, '/home', (Route<dynamic> route) => false);
-    })
-          ..catchError((error) {
-            erro = error.toString();
-            store.setErro(erro);
-            print(erro);
-             store.changeCarregando();
-          });
+    }).catchError((error) {
+      store.changeCarregando();
+      erro = error.toString();
+      store.setErro(erro);
+      print(erro);
+    });
   }
 
   static void LogarUsuario(FirebaseAuth auth, String email, String senha,

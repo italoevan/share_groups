@@ -105,6 +105,7 @@ class _CriarPostState extends State<CriarPost> {
       link_grupo: storeCriarPost.link_grupo,
       descricao: storeCriarPost.descricao,
       email: storeGeral.email,
+      idUsuario: storeGeral.id
     ).toJson();
 
     firestore
