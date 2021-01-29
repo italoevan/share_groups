@@ -127,18 +127,19 @@ mixin _$CadastroStore on _CadastroStore, Store {
     });
   }
 
-  final _$carregandoAtom = Atom(name: '_CadastroStore.carregando');
+  final _$carregandoCadastroAtom =
+      Atom(name: '_CadastroStore.carregandoCadastro');
 
   @override
-  bool get carregando {
-    _$carregandoAtom.reportRead();
-    return super.carregando;
+  bool get carregandoCadastro {
+    _$carregandoCadastroAtom.reportRead();
+    return super.carregandoCadastro;
   }
 
   @override
-  set carregando(bool value) {
-    _$carregandoAtom.reportWrite(value, super.carregando, () {
-      super.carregando = value;
+  set carregandoCadastro(bool value) {
+    _$carregandoCadastroAtom.reportWrite(value, super.carregandoCadastro, () {
+      super.carregandoCadastro = value;
     });
   }
 
@@ -212,11 +213,11 @@ mixin _$CadastroStore on _CadastroStore, Store {
   }
 
   @override
-  void changeCarregando() {
+  void changeCarregandoCadastro() {
     final _$actionInfo = _$_CadastroStoreActionController.startAction(
-        name: '_CadastroStore.changeCarregando');
+        name: '_CadastroStore.changeCarregandoCadastro');
     try {
-      return super.changeCarregando();
+      return super.changeCarregandoCadastro();
     } finally {
       _$_CadastroStoreActionController.endAction(_$actionInfo);
     }
@@ -231,7 +232,7 @@ id: ${id},
 senha: ${senha},
 visible: ${visible},
 erro: ${erro},
-carregando: ${carregando},
+carregandoCadastro: ${carregandoCadastro},
 emailComputed: ${emailComputed},
 apelidoComputed: ${apelidoComputed},
 senhaComputed: ${senhaComputed},

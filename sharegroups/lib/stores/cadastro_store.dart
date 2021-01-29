@@ -55,10 +55,10 @@ abstract class _CadastroStore with Store {
   void setErro(String value) =>erro=value;
 
   @observable
-  bool carregando = false;
+  bool carregandoCadastro = false;
 
   @action
-  void changeCarregando()=> carregando = !carregando;
+  void changeCarregandoCadastro()=> carregandoCadastro = !carregandoCadastro;
 
 
 

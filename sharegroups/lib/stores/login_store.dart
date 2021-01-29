@@ -28,10 +28,10 @@ abstract class _LoginStore with Store {
   void changeVisible() => visible = !visible;
 
   @observable
-  bool carregando = false;
+  bool carregandoLogin = false;
 
   @action
-  void changeCarregando()=> carregando = !carregando;
+  void changeCarregandoLogin()=> carregandoLogin = !carregandoLogin;
 
   @observable
   String erro = "";

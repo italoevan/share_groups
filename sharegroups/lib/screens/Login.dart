@@ -48,7 +48,10 @@ class _LoginState extends State<Login> {
                     obscureText: !loginStore.visible,
                     decoration: InputDecoration(
                         suffixIcon: IconButton(
-                            icon: Icon(
+                            icon: loginStore.visible ?  Icon(
+                              Icons.remove_red_eye_sharp,
+                              color: Colors.red,
+                            ):  Icon(
                               Icons.remove_red_eye_sharp,
                               color: Colors.grey,
                             ),
@@ -91,7 +94,7 @@ class _LoginState extends State<Login> {
                   height: 10,
                 ),
                 Observer(builder: (_) {
-                  return loginStore.carregando
+                  return loginStore.carregandoLogin
                       ? CircularProgressIndicator(
                           valueColor:
                               AlwaysStoppedAnimation<Color>(Colors.green),

@@ -13,6 +13,7 @@ posts ->   		  ->      ->lista  idUnico-> 	    apelido = String
 		encontros -> ->img      			        descricao = String
 		esportes ->  ->img         				    img_grupo = String
 													idUsuario = String
+													imageUrl  = String
 												    {disponivel = true}
 													
 reports -> 

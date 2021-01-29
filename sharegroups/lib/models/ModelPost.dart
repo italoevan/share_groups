@@ -10,7 +10,8 @@ class ModelPost{
   String email;
   bool disponivel;
   String idUsuario;
-  ModelPost({@required this.nome_grupo,@required this.apelido,@required this.data,@required this.link_grupo,@required this.descricao, @required this.email,@required this.idUsuario ,this.disponivel});
+  String imageUrl;
+  ModelPost({@required this.nome_grupo,@required this.apelido,@required this.data,@required this.link_grupo,@required this.descricao, @required this.email,@required this.idUsuario ,@required this.imageUrl,this.disponivel});
 
 
 ModelPost.fromMap(Map<String, dynamic> map){
@@ -20,6 +21,8 @@ ModelPost.fromMap(Map<String, dynamic> map){
   link_grupo = map['link_grupo'];
   descricao = map['descricao'];
   idUsuario = map['idUsuario'];
+  imageUrl = map['imageUrl'];
+
 
 }
 
@@ -33,6 +36,7 @@ ModelPost.fromMap(Map<String, dynamic> map){
   map['link_grupo'] = link_grupo;
   map['descricao']  = descricao; 
   map['idUsuario'] = idUsuario;
+  map['imageUrl']  = imageUrl;
 
   return map;
 

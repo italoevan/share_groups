@@ -54,18 +54,18 @@ mixin _$LoginStore on _LoginStore, Store {
     });
   }
 
-  final _$carregandoAtom = Atom(name: '_LoginStore.carregando');
+  final _$carregandoLoginAtom = Atom(name: '_LoginStore.carregandoLogin');
 
   @override
-  bool get carregando {
-    _$carregandoAtom.reportRead();
-    return super.carregando;
+  bool get carregandoLogin {
+    _$carregandoLoginAtom.reportRead();
+    return super.carregandoLogin;
   }
 
   @override
-  set carregando(bool value) {
-    _$carregandoAtom.reportWrite(value, super.carregando, () {
-      super.carregando = value;
+  set carregandoLogin(bool value) {
+    _$carregandoLoginAtom.reportWrite(value, super.carregandoLogin, () {
+      super.carregandoLogin = value;
     });
   }
 
@@ -120,11 +120,11 @@ mixin _$LoginStore on _LoginStore, Store {
   }
 
   @override
-  void changeCarregando() {
+  void changeCarregandoLogin() {
     final _$actionInfo = _$_LoginStoreActionController.startAction(
-        name: '_LoginStore.changeCarregando');
+        name: '_LoginStore.changeCarregandoLogin');
     try {
-      return super.changeCarregando();
+      return super.changeCarregandoLogin();
     } finally {
       _$_LoginStoreActionController.endAction(_$actionInfo);
     }
@@ -147,7 +147,7 @@ mixin _$LoginStore on _LoginStore, Store {
 email: ${email},
 senha: ${senha},
 visible: ${visible},
-carregando: ${carregando},
+carregandoLogin: ${carregandoLogin},
 erro: ${erro}
     ''';
   }

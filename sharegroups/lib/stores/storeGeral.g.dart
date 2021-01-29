@@ -54,6 +54,21 @@ mixin _$StoreGeral on _StoreGeral, Store {
     });
   }
 
+  final _$carregandoGeralAtom = Atom(name: '_StoreGeral.carregandoGeral');
+
+  @override
+  bool get carregandoGeral {
+    _$carregandoGeralAtom.reportRead();
+    return super.carregandoGeral;
+  }
+
+  @override
+  set carregandoGeral(bool value) {
+    _$carregandoGeralAtom.reportWrite(value, super.carregandoGeral, () {
+      super.carregandoGeral = value;
+    });
+  }
+
   final _$_StoreGeralActionController = ActionController(name: '_StoreGeral');
 
   @override
@@ -90,11 +105,23 @@ mixin _$StoreGeral on _StoreGeral, Store {
   }
 
   @override
+  void changeCarregandoGeral() {
+    final _$actionInfo = _$_StoreGeralActionController.startAction(
+        name: '_StoreGeral.changeCarregandoGeral');
+    try {
+      return super.changeCarregandoGeral();
+    } finally {
+      _$_StoreGeralActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 email: ${email},
 apelido: ${apelido},
-id: ${id}
+id: ${id},
+carregandoGeral: ${carregandoGeral}
     ''';
   }
 }

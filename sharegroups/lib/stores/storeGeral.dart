@@ -4,6 +4,8 @@ part 'storeGeral.g.dart';
 class StoreGeral = _StoreGeral with _$StoreGeral;
 
 abstract class _StoreGeral with Store {
+
+  
   /*Email, Apelido, id,  */
 
   /* Email */
@@ -27,4 +29,12 @@ abstract class _StoreGeral with Store {
 
   @action
   void setId(i) => id = i;
+
+
+  @observable
+  bool carregandoGeral = false;
+
+  @action
+  void changeCarregandoGeral()=> carregandoGeral = !carregandoGeral;
+
 }

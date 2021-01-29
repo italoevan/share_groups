@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sharegroups/models/ModelPost.dart';
 import 'package:sharegroups/screens/CriarPost.dart';
 import 'package:sharegroups/screens/Posts.dart';
+import 'package:sharegroups/stores/storeGeral.dart';
 import 'package:sharegroups/widgets/tiles/ListaDeGruposTile.dart';
 
 class ListaDeGrupos extends StatefulWidget {
@@ -17,6 +19,15 @@ class ListaDeGrupos extends StatefulWidget {
 class _ListaDeGruposState extends State<ListaDeGrupos> {
   List<QueryDocumentSnapshot> data;
   ModelPost postGeral;
+  StoreGeral storeGeral;
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    storeGeral = Provider.of<StoreGeral>(context);
+  
+  }
 
   @override
   void initState() {
@@ -24,6 +35,7 @@ class _ListaDeGruposState extends State<ListaDeGrupos> {
     print("ListaDeGrupos()");
     super.initState();
     data = widget.querySnapshot;
+   
   }
 
   @override
@@ -75,16 +87,14 @@ class _ListaDeGruposState extends State<ListaDeGrupos> {
               itemBuilder: (context, i) {
                 return GestureDetector(
                     onTap: () {
-
-                      
-
                       Map<String, dynamic> map = {
                         'nome_grupo': data[i].data()['nome_grupo'],
                         'apelido': data[i].data()['apelido'],
                         'data': data[i].data()['data'],
                         'link_grupo': data[i].data()['link_grupo'],
                         'descricao': data[i].data()['descricao'],
-                        'idUsuario' :data[i].data()['idUsuario']
+                        'idUsuario': data[i].data()['idUsuario'],
+                        'imageUrl': data[i].data()['imageUrl']
                       };
 
                       ModelPost post = ModelPost.fromMap(map);
@@ -127,4 +137,7 @@ class _ListaDeGruposState extends State<ListaDeGrupos> {
             ),
     );
   }
+
+
+  
 }

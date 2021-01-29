@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:sharegroups/helper/FireHelper.dart';
 import 'package:sharegroups/models/Usuario.dart';
@@ -25,6 +26,7 @@ class _HomeState extends State<Home> {
   Usuario usuario = Usuario();
   List<DocumentSnapshot> documents;
   String imagemTile;
+  GlobalKey<ScaffoldState> key = GlobalKey<ScaffoldState>();
 
   @override
   void didChangeDependencies() {
@@ -37,6 +39,7 @@ class _HomeState extends State<Home> {
   void initState() {
     // TODO: implement initState
     super.initState();
+   
     print("Home()");
     waitFire().then((value) {
       usuario = value;
@@ -56,6 +59,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: key,
       drawer: CustomDrawer(),
       appBar: AppBar(
         title: Text("Início".toUpperCase()),
@@ -89,7 +93,10 @@ class _HomeState extends State<Home> {
                     itemBuilder: (context, i) {
                       return GestureDetector(
                           onTap: () {
-                            
+                            storeGeral.carregandoGeral == true ? (){} :  storeGeral.changeCarregandoGeral();
+
+                           
+                            print(storeGeral.carregandoGeral.toString());
                             getDisponiveis(i).then((value) {
                               Navigator.push(
                                   context,
@@ -99,7 +106,7 @@ class _HomeState extends State<Home> {
                                           value,
                                           documents[i]
                                               .data()['img']
-                                              .toString())));
+                                              .toString()))).whenComplete(() => storeGeral.changeCarregandoGeral());
                             });
                           },
                           child: HomeTile(documents[i].id.toString(), context,
@@ -115,7 +122,10 @@ class _HomeState extends State<Home> {
                     },
                   );
                 }
-              })
+              }),
+          Observer(builder: (context) {
+            return Center(child: Container(child: storeGeral.carregandoGeral ?  CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(Colors.red),) : Container(width: 0,height: 0,)));
+          })
         ],
       ),
     );
@@ -156,17 +166,6 @@ class _HomeState extends State<Home> {
     });
 
     return filtered;
-  }
-
-  Future<QuerySnapshot> getQuerySnapshot(int i) async {
-    QuerySnapshot querySnapshot = await firestore
-        .collection('posts')
-        .doc("${documents[i].id.toString()}")
-        .collection('lista')
-        .orderBy('data', descending: true)
-        .limit(30)
-        .get();
-    return querySnapshot;
   }
 
   Future<String> getImagemTile({int i}) async {

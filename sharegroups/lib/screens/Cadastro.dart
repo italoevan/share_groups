@@ -119,7 +119,7 @@ class _CadastroState extends State<Cadastro> {
                   ),
                 ),
                 Divider(color: Colors.transparent,),
-                Observer(builder: (_)=>cadastroStore.carregando ?CircularProgressIndicator() : Container(),),
+                Observer(builder: (_)=>cadastroStore.carregandoCadastro ?CircularProgressIndicator() : Container(),),
                 Observer(builder: (_){
                   return Text("${cadastroStore.erro}", style: TextStyle(fontSize:25, color:Colors.red),);
                 },)

@@ -24,7 +24,7 @@ class Autenticacao {
       String senha,
       String apelido,
       BuildContext context) {
-    store.changeCarregando();
+    store.changeCarregandoCadastro();
     String erro;
 
 
@@ -47,7 +47,7 @@ class Autenticacao {
       Navigator.pushNamedAndRemoveUntil(
           context, '/home', (Route<dynamic> route) => false);
     }).catchError((error) {
-      store.changeCarregando();
+      store.changeCarregandoCadastro();
       erro = error.toString();
       store.setErro(erro);
       print(erro);
@@ -57,14 +57,14 @@ class Autenticacao {
   static void LogarUsuario(FirebaseAuth auth, String email, String senha,
       BuildContext context, LoginStore loginStore) {
     String erro;
-    loginStore.changeCarregando();
+    loginStore.changeCarregandoLogin();
     auth
         .signInWithEmailAndPassword(email: email, password: senha)
         .then((value) {
       Navigator.pushNamedAndRemoveUntil(
           context, '/home', (Route<dynamic> route) => false);
     }).catchError((error) {
-      loginStore.changeCarregando();
+      loginStore.changeCarregandoLogin();
       erro = error.toString();
       loginStore.setErro(erro);
       print(erro);

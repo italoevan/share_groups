@@ -58,13 +58,14 @@ class _PostsState extends State<Posts> {
                         Divider(),
                         Container(
                           padding: EdgeInsets.all(12),
-                          height: 200,
+                          
                           child: Text(
                             widget.modelPost.descricao,
                             style: TextStyle(color: Colors.white, fontSize: 25),
                           ),
                         ),
-                        Divider()
+                        Divider(),
+                        Expanded(child: Image.network(widget.modelPost.imageUrl, width: width,fit: BoxFit.cover,),)
                       ],
                     )),
               ),

@@ -9,9 +9,11 @@ import 'package:sharegroups/screens/Login.dart';
 import 'package:sharegroups/stores/cadastro_store.dart';
 import 'package:sharegroups/stores/login_store.dart';
 import 'package:sharegroups/stores/storeGeral.dart';
+import 'package:firebase_core/firebase_core.dart' as firebase_core;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await firebase_core.Firebase.initializeApp();
   await Firebase.initializeApp();
   runApp(FirstScreen());
 }

@@ -35,6 +35,8 @@ dependencies:
   flutter_mobx: ^1.1.0+2
   provider: ^4.3.3
   url_launcher: ^5.7.10
+  image_picker: ^0.6.7+21
+  firebase_storage: ^7.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
