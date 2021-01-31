@@ -28,6 +28,9 @@ class _HomeState extends State<Home> {
   String imagemTile;
   GlobalKey<ScaffoldState> key = GlobalKey<ScaffoldState>();
 
+  //Animation
+  bool animate = false;
+
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
@@ -39,13 +42,14 @@ class _HomeState extends State<Home> {
   void initState() {
     // TODO: implement initState
     super.initState();
-   
+
     print("Home()");
     waitFire().then((value) {
       usuario = value;
       storeGeral.setApelido(usuario.apelido);
       storeGeral.setemail(usuario.email);
       storeGeral.setId(usuario.id);
+      animar();
     });
   }
 
@@ -62,7 +66,13 @@ class _HomeState extends State<Home> {
       key: key,
       drawer: CustomDrawer(),
       appBar: AppBar(
-        title: Text("Início".toUpperCase()),
+        title: AnimatedDefaultTextStyle(
+          curve: Curves.elasticOut,
+            style: animate
+                ? TextStyle(color: Colors.green,fontSize: 18, fontFamily: 'AlmondCream')
+                : TextStyle(color: Colors.white,fontSize: 8,fontFamily: 'AlmondCream'),
+            duration: Duration(seconds: 2),
+            child: Text("Share Groups".toUpperCase(), )),
         centerTitle: true,
         elevation: 0,
         actions: [
@@ -93,9 +103,10 @@ class _HomeState extends State<Home> {
                     itemBuilder: (context, i) {
                       return GestureDetector(
                           onTap: () {
-                            storeGeral.carregandoGeral == true ? (){} :  storeGeral.changeCarregandoGeral();
+                            storeGeral.carregandoGeral == true
+                                ? () {}
+                                : storeGeral.changeCarregandoGeral();
 
-                           
                             print(storeGeral.carregandoGeral.toString());
                             getDisponiveis(i).then((value) {
                               Navigator.push(
@@ -106,7 +117,8 @@ class _HomeState extends State<Home> {
                                           value,
                                           documents[i]
                                               .data()['img']
-                                              .toString()))).whenComplete(() => storeGeral.changeCarregandoGeral());
+                                              .toString()))).whenComplete(
+                                  () => storeGeral.changeCarregandoGeral());
                             });
                           },
                           child: HomeTile(documents[i].id.toString(), context,
@@ -124,7 +136,16 @@ class _HomeState extends State<Home> {
                 }
               }),
           Observer(builder: (context) {
-            return Center(child: Container(child: storeGeral.carregandoGeral ?  CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(Colors.red),) : Container(width: 0,height: 0,)));
+            return Center(
+                child: Container(
+                    child: storeGeral.carregandoGeral
+                        ? CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation(Colors.red),
+                          )
+                        : Container(
+                            width: 0,
+                            height: 0,
+                          )));
           })
         ],
       ),
@@ -176,5 +197,11 @@ class _HomeState extends State<Home> {
     String img = documentSnapshot.data()['img'];
     imagemTile = img;
     return img;
+  }
+
+  void animar() {
+    setState(() {
+      animate = true;
+    });
   }
 }

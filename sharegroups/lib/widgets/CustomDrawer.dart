@@ -36,7 +36,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       child: Text(
                         "Olá ${storeGeral.apelido}",
                         style: TextStyle(
-                          fontSize: 18,
+                            fontSize: 18,
                             color: Colors.white,
                             fontFamily: 'PottaOne',
                             fontWeight: FontWeight.bold),
@@ -56,9 +56,23 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       ),
                     ),
                     Divider(),
-                    DrawerTile((){
-                      launch('https://play.google.com/store/apps/details?id=com.evinc.sharegroups');
-                    }, 'Nos avalie', Icons.star, colorIcon: Colors.orange,)
+                    DrawerTile(
+                      () {
+                        launch(
+                            'https://play.google.com/store/apps/details?id=com.evinc.sharegroups');
+                      },
+                      'Nos avalie',
+                      Icons.star,
+                      colorIcon: Colors.orange,
+                    ),
+                    Spacer(),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Image.asset(
+                        'assets/images/wave.png',
+                        fit: BoxFit.cover,
+                      ),
+                    )
                   ],
                 );
               },
