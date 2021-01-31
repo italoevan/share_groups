@@ -40,10 +40,23 @@ class _CadastroState extends State<Cadastro> {
           Container(
             color: Color(0xff121212),
           ),
-          Padding(
+          SingleChildScrollView(
+              child: Padding(
             padding: EdgeInsets.all(8),
             child: Column(
               children: [
+                Container(
+                  height: 190,
+                  child: Center(
+                    child: Text(
+                      'SHARE\n GROUPS',
+                      style: TextStyle(
+                          fontSize: 45,
+                          fontFamily: 'AlmondCream',
+                          color: Colors.green),
+                    ),
+                  ),
+                ),
                 Container(
                   child: Observer(
                     builder: (context) {
@@ -51,24 +64,35 @@ class _CadastroState extends State<Cadastro> {
                         children: [
                           TextField(
                             decoration: InputDecoration(
-                                errorText:
-                                    cadastroStore.emailComputed ? null : "Mínimo de 10 letras, max de 26.",
+                                errorText: cadastroStore.emailComputed
+                                    ? null
+                                    : "Mínimo de 10 letras, max de 26.",
                                 filled: true,
                                 fillColor: Colors.white,
                                 labelText: "Email"),
                             onChanged: cadastroStore.setEmail,
                           ),
+                          Divider(
+                            height: 6,
+                          ),
                           TextField(
                             decoration: InputDecoration(
-                              errorText: cadastroStore.apelidoComputed ?null : "Mínimo de 3 letras, max de 12.",
+                                errorText: cadastroStore.apelidoComputed
+                                    ? null
+                                    : "Mínimo de 3 letras, max de 12.",
                                 filled: true,
                                 fillColor: Colors.white,
                                 labelText: "Apelido"),
                             onChanged: cadastroStore.setApelido,
                           ),
+                          Divider(
+                            height: 6,
+                          ),
                           TextField(
                             decoration: InputDecoration(
-                              errorText: cadastroStore.senhaComputed ? null : "Mínimo de 3 letras, max de 10.",
+                                errorText: cadastroStore.senhaComputed
+                                    ? null
+                                    : "Mínimo de 3 letras, max de 10.",
                                 suffixIcon: IconButton(
                                     icon: Icon(
                                       Icons.remove_red_eye_sharp,
@@ -95,10 +119,15 @@ class _CadastroState extends State<Cadastro> {
                 SizedBox(
                   height: 45,
                   child: Observer(
-                    builder: (context) {
+                    builder: (_) {
                       return RaisedButton(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12)),
+                        color: Colors.blue,
                         onPressed: cadastroStore.done
                             ? () {
+                                FocusScope.of(context)
+                                    .requestFocus(FocusNode());
                                 Autenticacao.CadastrarUsuario(
                                     cadastroStore,
                                     firestore,
@@ -113,19 +142,31 @@ class _CadastroState extends State<Cadastro> {
                                     content: Text(
                                         "Você não preencheu os requisitos.")));
                               },
-                        child: Text("Cadastrar"),
+                        child: Text("Cadastrar",
+                            style: TextStyle(color: Colors.white)),
                       );
                     },
                   ),
                 ),
-                Divider(color: Colors.transparent,),
-                Observer(builder: (_)=>cadastroStore.carregandoCadastro ?CircularProgressIndicator() : Container(),),
-                Observer(builder: (_){
-                  return Text("${cadastroStore.erro}", style: TextStyle(fontSize:25, color:Colors.red),);
-                },)
+                Divider(
+                  color: Colors.transparent,
+                ),
+                Observer(
+                  builder: (_) => cadastroStore.carregandoCadastro
+                      ? CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(Colors.green),)
+                      : Container(),
+                ),
+                Observer(
+                  builder: (_) {
+                    return Text(
+                      "${cadastroStore.erro}",
+                      style: TextStyle(fontSize: 25, color: Colors.red),
+                    );
+                  },
+                )
               ],
             ),
-          )
+          ))
         ],
       ),
     );
