@@ -1,6 +1,8 @@
+import 'package:admob_flutter/admob_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sharegroups/helper/admob_service.dart';
 import 'package:sharegroups/models/ModelPost.dart';
 import 'package:sharegroups/screens/CriarPost.dart';
 import 'package:sharegroups/screens/Posts.dart';
@@ -20,6 +22,7 @@ class _ListaDeGruposState extends State<ListaDeGrupos> {
   List<QueryDocumentSnapshot> data;
   ModelPost postGeral;
   StoreGeral storeGeral;
+  AdmobService ams = AdmobService();
 
   @override
   void didChangeDependencies() {
@@ -40,6 +43,8 @@ class _ListaDeGruposState extends State<ListaDeGrupos> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       appBar: AppBar(
@@ -83,7 +88,10 @@ class _ListaDeGruposState extends State<ListaDeGrupos> {
         ],
       ),
       body: widget.querySnapshot.length != 0
-          ? ListView.builder(
+          ? Column(children: [
+            Container(
+              height: height * 0.8,
+              child: ListView.builder(
               itemBuilder: (context, i) {
                 return GestureDetector(
                     onTap: () {
@@ -114,7 +122,12 @@ class _ListaDeGruposState extends State<ListaDeGrupos> {
 
                     );
               },
-              itemCount: data.length)
+              itemCount: data.length),
+            ),
+             Expanded(child:Container(
+                child: AdmobBanner(adSize:AdmobBannerSize.FULL_BANNER,adUnitId: ams.getBannerId())
+              ))
+          ],)
           : Container(
               child: Center(
                 child: Column(

@@ -4,12 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:sharegroups/helper/FireHelper.dart';
+import 'package:sharegroups/helper/admob_service.dart';
 import 'package:sharegroups/models/Usuario.dart';
 import 'package:sharegroups/stores/cadastro_store.dart';
 import 'package:sharegroups/stores/storeGeral.dart';
 import 'package:sharegroups/widgets/CustomDrawer.dart';
 import 'package:sharegroups/widgets/tiles/HomeTile.dart';
 import 'package:sharegroups/models/ModelPost.dart';
+import 'package:admob_flutter/admob_flutter.dart';
+
+
 
 import 'ListaDeGrupos.dart';
 
@@ -27,6 +31,14 @@ class _HomeState extends State<Home> {
   List<DocumentSnapshot> documents;
   String imagemTile;
   GlobalKey<ScaffoldState> key = GlobalKey<ScaffoldState>();
+   //ad
+  AdmobService ams = AdmobService();
+
+  
+
+ 
+
+ 
 
   //Animation
   bool animate = false;
@@ -42,6 +54,8 @@ class _HomeState extends State<Home> {
   void initState() {
     // TODO: implement initState
     super.initState();
+ 
+    
 
     print("Home()");
     waitFire().then((value) {
@@ -51,6 +65,8 @@ class _HomeState extends State<Home> {
       storeGeral.setId(usuario.id);
       animar();
     });
+
+ 
   }
 
   @override
@@ -62,6 +78,9 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+
     return Scaffold(
       key: key,
       drawer: CustomDrawer(),
@@ -89,7 +108,11 @@ class _HomeState extends State<Home> {
       body: Stack(
         children: [
           Container(color: Theme.of(context).primaryColor),
-          FutureBuilder(
+          Column(
+            children: [
+              Container(
+                height: height * 0.8,
+                child: FutureBuilder(
               future: getTiles(firestore).then((value) => documents = value),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
@@ -102,6 +125,7 @@ class _HomeState extends State<Home> {
                     itemCount: documents.length,
                     itemBuilder: (context, i) {
                       return GestureDetector(
+                      
                           onTap: () {
                             storeGeral.carregandoGeral == true
                                 ? () {}
@@ -135,6 +159,12 @@ class _HomeState extends State<Home> {
                   );
                 }
               }),
+              ),
+              Expanded(child:Container(
+                child: AdmobBanner(adSize:AdmobBannerSize.FULL_BANNER,adUnitId: ams.getBannerId())
+              ))
+            ],
+          ),
           Observer(builder: (context) {
             return Center(
                 child: Container(
@@ -146,7 +176,8 @@ class _HomeState extends State<Home> {
                             width: 0,
                             height: 0,
                           )));
-          })
+          }),
+          
         ],
       ),
     );
