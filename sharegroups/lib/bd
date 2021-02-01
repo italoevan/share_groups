@@ -1,0 +1,29 @@
+
+
+		
+usuarios-> id-> apelido = String
+				email   =String
+				id = String
+				
+													______ModelPost_____					
+		musicas->    ->img      					nome_grupo = String
+posts ->   		  ->      ->lista  idUnico-> 	    apelido = String
+		estudo->     ->img  		    		    data = number
+		amizade->    ->img  	   				    link_grupo = String
+		encontros -> ->img      			        descricao = String
+		esportes ->  ->img         				    img_grupo = String
+													idUsuario = String
+													imageUrl  = String
+													{tagName   = String}
+												    {disponivel = true}
+													
+postagensGeral ->  lista  idUnico->     (where : disponivel.isNull)     	    ______ModelPost_____
+																				nome_grupo = String
+			    																apelido = String
+																				data = number
+																				link_grupo = String
+																				descricao = String
+																				img_grupo = String
+																				idUsuario = String
+																				imageUrl  = String
+																				tagName = String
