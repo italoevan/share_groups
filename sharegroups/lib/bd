@@ -27,3 +27,14 @@ postagensGeral ->  lista  idUnico->     (where : disponivel.isNull)     	    ___
 																				idUsuario = String
 																				imageUrl  = String
 																				tagName = String
+
+reports -> list idUnico -> 														______ModelPost_____
+																				nome_grupo = String
+			    																apelido = String
+																				data = number
+																				link_grupo = String
+																				descricao = String
+																				img_grupo = String
+																				idUsuario = String
+																				imageUrl  = String
+																				tagName = String

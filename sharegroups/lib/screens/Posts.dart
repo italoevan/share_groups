@@ -1,4 +1,5 @@
 import 'package:admob_flutter/admob_flutter.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:sharegroups/helper/admob_service.dart';
 import 'package:sharegroups/models/ModelPost.dart';
@@ -16,6 +17,7 @@ class Posts extends StatefulWidget {
 class _PostsState extends State<Posts> {
   AdmobService ams = AdmobService();
   GlobalKey<ScaffoldState> key = GlobalKey<ScaffoldState>();
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   @override
   void initState() {
@@ -100,7 +102,7 @@ class _PostsState extends State<Posts> {
                               child: RaisedButton(
                                 color: Colors.red[900],
                                 onPressed: () {
-                                  reportar(height);
+                                  reportar(height,firestore);
                                 },
                                 child: Text(
                                   "REPORTAR",
@@ -125,7 +127,7 @@ class _PostsState extends State<Posts> {
             ),
             Positioned(
                 left: 12,
-                top: 32,
+                top: 40,
                 child: InkWell(
                   onTap: () {
                     Navigator.pop(context);
@@ -147,7 +149,7 @@ class _PostsState extends State<Posts> {
                 )),
             Positioned(
                 right: 12,
-                top: 32,
+                top: 45,
                 child: Container(
                   padding: EdgeInsets.all(8),
                   decoration: BoxDecoration(
@@ -172,7 +174,7 @@ class _PostsState extends State<Posts> {
     }
   }
 
-  void reportar(double height) {
+  void reportar(double height, FirebaseFirestore firestore) {
     showDialog(
         context: key.currentState.context,
         builder: (context) {
@@ -196,8 +198,47 @@ class _PostsState extends State<Posts> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     TextField(
-                      autofocus: true,
-                      decoration: InputDecoration(),
+
+                        maxLength: 40,
+                        style: TextStyle(color: Colors.white),
+                        autofocus: true,
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Theme.of(context).primaryColor)
+                        ),
+                    SizedBox(
+                      height: 50,
+                      child: RaisedButton(
+                          child: Text("Enviar",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 30)),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12)),
+                          color: Colors.red,
+                          onPressed: () {
+                            var mapPost = ModelPost(
+                              nome_grupo: widget.modelPost.nome_grupo,
+                              apelido: widget.modelPost.apelido,
+                              data: widget.modelPost.data,
+                              link_grupo: widget.modelPost.link_grupo,
+                              descricao: widget.modelPost.descricao,
+                              idUsuario: widget.modelPost.idUsuario,
+                              tagName: widget.tagName
+
+
+                            ).toJson();
+
+
+                           
+
+                            firestore.collection('reports').doc(widget.modelPost.data).set(mapPost).then((value) {
+
+                                Navigator.pop(context);
+                                key.currentState.showSnackBar(SnackBar(content: Text("Report enviado."),));
+                            });
+                            
+                           
+                          }),
                     )
                   ],
                 ),

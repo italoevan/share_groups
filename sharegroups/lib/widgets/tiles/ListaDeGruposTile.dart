@@ -39,7 +39,7 @@ class _ListaDeGruposTileState extends State<ListaDeGruposTile> {
                   fontSize: 19,
                 ),
               ),
-              leading: post.imageUrl != null ? ClipRRect(borderRadius: BorderRadius.circular(60),child: Image.network(post.imageUrl),) : Icon(Icons.public),
+              leading: post.imageUrl != null ? ClipRRect(borderRadius: BorderRadius.circular(90),child: Image.network(post.imageUrl, fit: BoxFit.cover,height: 60,width: 60,),) : Icon(Icons.public),
               trailing: Container(
                 padding: EdgeInsets.all(4),
                 decoration: BoxDecoration(
