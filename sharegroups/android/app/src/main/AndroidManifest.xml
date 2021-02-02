@@ -9,7 +9,7 @@
 
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="sharegroups"
+        android:label="Share Groups"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
