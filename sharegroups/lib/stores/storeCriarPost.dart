@@ -41,6 +41,12 @@ abstract class _StoreCriarPost with Store {
   @computed
   bool get linkGrupoComputed => link_grupo.isNotEmpty;
 
+  @observable
+  bool foto = false;
+
+  @action
+  void changeFoto()=> foto = !foto;
+
   @computed
   bool get descricaoComputed => descricao.length > 20 && descricao.length < 88 ;
 
@@ -50,6 +56,8 @@ abstract class _StoreCriarPost with Store {
   
 
   @computed
-  bool get done => nome_grupo.length >5 && nome_grupo.length < 17 && descricao.length > 20 && descricao.length < 88 && link_grupo.isNotEmpty;
+  bool get done => nome_grupo.length >5 && nome_grupo.length < 17 && descricao.length > 20 && descricao.length < 88 && link_grupo.isNotEmpty && foto == true;
+
+    
 
 }

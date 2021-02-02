@@ -25,5 +25,12 @@ class AdmobService{
     
   
   }
+  //ca-app-pub-3940256099942544/1033173712
+  String getInterstitialAdUnitId() {
+ if(Platform.isAndroid){
+   return 'ca-app-pub-6321157595470088/8823512623';
+ }
+  return null;
+}
 
 }

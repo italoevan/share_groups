@@ -112,6 +112,21 @@ mixin _$StoreCriarPost on _StoreCriarPost, Store {
     });
   }
 
+  final _$fotoAtom = Atom(name: '_StoreCriarPost.foto');
+
+  @override
+  bool get foto {
+    _$fotoAtom.reportRead();
+    return super.foto;
+  }
+
+  @override
+  set foto(bool value) {
+    _$fotoAtom.reportWrite(value, super.foto, () {
+      super.foto = value;
+    });
+  }
+
   final _$_StoreCriarPostActionController =
       ActionController(name: '_StoreCriarPost');
 
@@ -171,6 +186,17 @@ mixin _$StoreCriarPost on _StoreCriarPost, Store {
   }
 
   @override
+  void changeFoto() {
+    final _$actionInfo = _$_StoreCriarPostActionController.startAction(
+        name: '_StoreCriarPost.changeFoto');
+    try {
+      return super.changeFoto();
+    } finally {
+      _$_StoreCriarPostActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 nome_grupo: ${nome_grupo},
@@ -178,6 +204,7 @@ data: ${data},
 link_grupo: ${link_grupo},
 descricao: ${descricao},
 carregando: ${carregando},
+foto: ${foto},
 nomeGrupoComputed: ${nomeGrupoComputed},
 linkGrupoComputed: ${linkGrupoComputed},
 descricaoComputed: ${descricaoComputed},

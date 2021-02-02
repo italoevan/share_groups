@@ -33,6 +33,7 @@ class _HomeState extends State<Home> {
   GlobalKey<ScaffoldState> key = GlobalKey<ScaffoldState>();
    //ad
   AdmobService ams = AdmobService();
+   AdmobInterstitial interstitialAd;
 
   
 
@@ -55,7 +56,19 @@ class _HomeState extends State<Home> {
     // TODO: implement initState
     super.initState();
  
-    
+    //ad
+      interstitialAd = AdmobInterstitial(
+      adUnitId: ams.getInterstitialAdUnitId(),
+      listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+        if (event == AdmobAdEvent.closed) interstitialAd.load();
+        handleEvent(event, args, 'Interstitial');
+      },
+    );
+     interstitialAd.load();
+
+
+
+    //
 
     print("Home()");
     waitFire().then((value) {
@@ -66,18 +79,22 @@ class _HomeState extends State<Home> {
       animar();
     });
 
+
+
  
   }
 
   @override
   void dispose() {
     // TODO: implement dispose
-
+   
     super.dispose();
+    interstitialAd.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
@@ -130,7 +147,7 @@ class _HomeState extends State<Home> {
                             storeGeral.carregandoGeral == true
                                 ? () {}
                                 : storeGeral.changeCarregandoGeral();
-
+                              
                             print(storeGeral.carregandoGeral.toString());
                             getDisponiveis(i).then((value) {
                               Navigator.push(
@@ -144,6 +161,7 @@ class _HomeState extends State<Home> {
                                               .toString()))).whenComplete(
                                   () => storeGeral.changeCarregandoGeral());
                             });
+                             interstitialAd.show();
                           },
                           child: HomeTile(documents[i].id.toString(), context,
                               documents[i].data()['img'])
@@ -235,5 +253,26 @@ class _HomeState extends State<Home> {
     setState(() {
       animate = true;
     });
+  }
+   void handleEvent(
+      AdmobAdEvent event, Map<String, dynamic> args, String adType) {
+    switch (event) {
+      case AdmobAdEvent.loaded:
+       print('New Admob $adType Ad loaded!');
+        break;
+      case AdmobAdEvent.opened:
+        print('Admob $adType Ad opened!');
+        break;
+      case AdmobAdEvent.closed:
+        print('Admob $adType Ad closed!');
+        break;
+      case AdmobAdEvent.failedToLoad:
+        print('Admob $adType failed to load. :(');
+        break;
+      case AdmobAdEvent.rewarded:
+       print('rewarded');
+        break;
+      default:
+    }
   }
 }

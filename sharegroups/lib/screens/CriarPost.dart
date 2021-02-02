@@ -28,12 +28,10 @@ class _CriarPostState extends State<CriarPost> {
   StoreCriarPost storeCriarPost = StoreCriarPost();
   ModelPost post;
   GlobalKey<ScaffoldState> key = GlobalKey<ScaffoldState>();
-  
+
   //image
   File _image;
   final picker = ImagePicker();
-  
-
 
   @override
   void didChangeDependencies() {
@@ -58,63 +56,100 @@ class _CriarPostState extends State<CriarPost> {
           ),
           Observer(
             builder: (context) {
-              return Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    TextField(
-                      decoration: InputDecoration(
-                          errorText: storeCriarPost.nomeGrupoComputed
-                              ? null
-                              : "O nome do grupo tem que ter entre 5 e 17 letras.",
-                          fillColor: Colors.white,
-                          filled: true,
-                          labelText: "Nome do Grupo"),
-                      onChanged: storeCriarPost.setNome_grupo,
-                    ),
-                    TextField(
-                      decoration: InputDecoration(
-                          errorText: storeCriarPost.linkGrupoComputed
-                              ? null
-                              : "O link não pode estar vazio.",
-                          fillColor: Colors.white,
-                          filled: true,
-                          labelText: "Link do grupo"),
-                      onChanged: storeCriarPost.setLink_grupo,
-                    ),
-                    TextField(
-                      keyboardType: TextInputType.multiline,
-                      maxLines: 8,
-                      decoration: InputDecoration(
-                          errorText: storeCriarPost.descricaoComputed
-                              ? null
-                              : "A descrição tem que ter entre 20 e 88 caracteres.",
-                          filled: true,
-                          fillColor: Colors.white,
-                          labelText: "Descricao"),
-                      onChanged: storeCriarPost.setDescricao,
-                    ),
-                    RaisedButton(
-                        onPressed: getImage, child: Text("Escolher foto")),
-                    RaisedButton(
-                      onPressed: storeCriarPost.done
-                          ? () {
-                              storeCriarPost.changeBool();
-                              uploadImagem().then((url) {
-                              
-                               
-                                Postar(context,url);
-
-                              });
-                            }
-                          : () {},
-                      child: Text("Salvar"),
-                    ),
-                    _image != null ? Image.file(_image) : Container(),
-                    storeCriarPost.carregando
-                        ? CircularProgressIndicator()
-                        : Container()
-                  ],
+              return SingleChildScrollView(
+                child: Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextField(
+                        decoration: InputDecoration(
+                            errorText: storeCriarPost.nomeGrupoComputed
+                                ? null
+                                : "O nome do grupo tem que ter entre 5 e 17 letras.",
+                            fillColor: Colors.white,
+                            filled: true,
+                            labelText: "Nome do Grupo"),
+                        onChanged: storeCriarPost.setNome_grupo,
+                      ),
+                      TextField(
+                        decoration: InputDecoration(
+                            errorText: storeCriarPost.linkGrupoComputed
+                                ? null
+                                : "O link não pode estar vazio.",
+                            fillColor: Colors.white,
+                            filled: true,
+                            labelText: "Link do grupo"),
+                        onChanged: storeCriarPost.setLink_grupo,
+                      ),
+                      TextField(
+                        keyboardType: TextInputType.multiline,
+                        maxLines: 8,
+                        decoration: InputDecoration(
+                            errorText: storeCriarPost.descricaoComputed
+                                ? null
+                                : "A descrição tem que ter entre 20 e 88 caracteres.",
+                            filled: true,
+                            fillColor: Colors.white,
+                            labelText: "Descricao"),
+                        onChanged: storeCriarPost.setDescricao,
+                      ),
+                      Divider(
+                        color: Colors.transparent,
+                      ),
+                      SizedBox(
+                        height: 45,
+                        child: RaisedButton(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12)),
+                            color: Colors.green,
+                            onPressed: getImage,
+                            child: Text("Escolher foto",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 20))),
+                      ),
+                      Divider(color: Colors.transparent),
+                      SizedBox(
+                        height: 45,
+                        child: RaisedButton(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12)),
+                          color:
+                              storeCriarPost.done ? Colors.blue : Colors.black,
+                          onPressed: storeCriarPost.done
+                              ? () {
+                                  storeCriarPost.carregando
+                                      ? () {}
+                                      : storeCriarPost.changeBool();
+                                  uploadImagem().then((url) {
+                                    Postar(context, url);
+                                  });
+                                  ;
+                                }
+                              : () {
+                                  key.currentState.showSnackBar(SnackBar(
+                                      content:
+                                          Text("Requisitos não cumpridos.")));
+                                },
+                          child: Text("Salvar",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 20)),
+                        ),
+                      ),
+                      Divider(),
+                      _image != null
+                          ? Image.file(
+                              _image,
+                              height: 150,
+                              width: 200,
+                            )
+                          : Container(),
+                      storeCriarPost.carregando
+                          ? CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation(Colors.green),
+                            )
+                          : Container()
+                    ],
+                  ),
                 ),
               );
             },
@@ -124,7 +159,7 @@ class _CriarPostState extends State<CriarPost> {
     );
   }
 
-  void Postar(BuildContext context,String iurl) {
+  void Postar(BuildContext context, String iurl) {
     var mapPost = ModelPost(
             nome_grupo: storeCriarPost.nome_grupo,
             apelido: storeGeral.apelido,
@@ -134,8 +169,7 @@ class _CriarPostState extends State<CriarPost> {
             email: storeGeral.email,
             idUsuario: storeGeral.id,
             imageUrl: iurl,
-            tagName: widget.tagname
-            )
+            tagName: widget.tagname)
         .toJson();
     String date = SalvarData();
     firestore
@@ -145,7 +179,7 @@ class _CriarPostState extends State<CriarPost> {
         .doc(date)
         .set(mapPost)
         .then((value) {
-      postagensGeral(mapPost,date);
+      postagensGeral(mapPost, date);
       storeCriarPost.changeBool();
       Navigator.pushAndRemoveUntil(context,
           MaterialPageRoute(builder: (context) => Home()), (route) => false);
@@ -161,9 +195,8 @@ class _CriarPostState extends State<CriarPost> {
     });
   }
 
-  void postagensGeral(Map<String, dynamic> model,String idUnico){
+  void postagensGeral(Map<String, dynamic> model, String idUnico) {
     firestore.collection('postagensGeral').doc(idUnico).set(model);
-
   }
 
   String SalvarData() {
@@ -177,6 +210,7 @@ class _CriarPostState extends State<CriarPost> {
     setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
+        storeCriarPost.changeFoto();
       } else {
         print('No image selected.');
       }
@@ -187,19 +221,14 @@ class _CriarPostState extends State<CriarPost> {
     var data;
     data = Timestamp.now();
     FirebaseStorage firebaseStorage = FirebaseStorage.instance;
-    var raiz =  firebaseStorage.ref();
+    var raiz = firebaseStorage.ref();
     var arquivo =
         raiz.child('imagePosts/${storeGeral.id}/${data}').putFile(_image);
 
-        //recuperar 
-         String url = await (await arquivo).ref.getDownloadURL();
-          
-          print("URL: " + url.toString());
-         return url;
+    //recuperar
+    String url = await (await arquivo).ref.getDownloadURL();
 
+    print("URL: " + url.toString());
+    return url;
   }
-
- 
-
-  
 }

@@ -36,7 +36,7 @@ class _PostsState extends State<Posts> {
         body: Stack(
           children: [
             Container(color: Theme.of(context).primaryColor),
-            Container(
+            SingleChildScrollView(child:Container(
               height: height,
               width: width,
               child: Column(
@@ -124,7 +124,7 @@ class _PostsState extends State<Posts> {
                               adUnitId: ams.getBannerId())))
                 ],
               ),
-            ),
+            )),
             Positioned(
                 left: 12,
                 top: 40,
