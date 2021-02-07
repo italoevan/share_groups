@@ -26,6 +26,7 @@ apply plugin: 'com.google.gms.google-services'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
+
    def keystoreProperties = new Properties()
    def keystorePropertiesFile = rootProject.file('key.properties')
    if (keystorePropertiesFile.exists()) {
@@ -42,7 +43,6 @@ android {
 
     lintOptions {
         disable 'InvalidPackage'
-        checkReleaseBuilds false
     }
 
     defaultConfig {
@@ -55,7 +55,7 @@ android {
         versionName flutterVersionName
     }
 
-      signingConfigs {
+     signingConfigs {
        release {
            keyAlias keystoreProperties['keyAlias']
            keyPassword keystoreProperties['keyPassword']
@@ -68,7 +68,6 @@ android {
            signingConfig signingConfigs.release
        }
    }
-
 }
 
 flutter {
@@ -82,4 +81,3 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.3'
 }
 
-apply plugin: 'com.google.gms.google-services'

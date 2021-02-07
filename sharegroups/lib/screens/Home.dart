@@ -11,7 +11,6 @@ import 'package:sharegroups/stores/storeGeral.dart';
 import 'package:sharegroups/widgets/CustomDrawer.dart';
 import 'package:sharegroups/widgets/tiles/HomeTile.dart';
 import 'package:sharegroups/models/ModelPost.dart';
-import 'package:admob_flutter/admob_flutter.dart';
 
 
 
@@ -33,7 +32,7 @@ class _HomeState extends State<Home> {
   GlobalKey<ScaffoldState> key = GlobalKey<ScaffoldState>();
    //ad
   AdmobService ams = AdmobService();
-   AdmobInterstitial interstitialAd;
+
 
   
 
@@ -57,14 +56,8 @@ class _HomeState extends State<Home> {
     super.initState();
  
     //ad
-      interstitialAd = AdmobInterstitial(
-      adUnitId: ams.getInterstitialAdUnitId(),
-      listener: (AdmobAdEvent event, Map<String, dynamic> args) {
-        if (event == AdmobAdEvent.closed) interstitialAd.load();
-        handleEvent(event, args, 'Interstitial');
-      },
-    );
-     interstitialAd.load();
+  
+
 
 
 
@@ -89,7 +82,7 @@ class _HomeState extends State<Home> {
     // TODO: implement dispose
    
     super.dispose();
-    interstitialAd.dispose();
+   
   }
 
   @override
@@ -161,7 +154,7 @@ class _HomeState extends State<Home> {
                                               .toString()))).whenComplete(
                                   () => storeGeral.changeCarregandoGeral());
                             });
-                             interstitialAd.show();
+                            // interstitialAd.show();
                           },
                           child: HomeTile(documents[i].id.toString(), context,
                               documents[i].data()['img'])
@@ -180,7 +173,7 @@ class _HomeState extends State<Home> {
               ),
               Expanded(child:Container(
                 width: width,
-                child: AdmobBanner(adSize:AdmobBannerSize.FULL_BANNER,adUnitId: ams.getBannerId())
+                child: Container()//AdmobBanner(adSize:AdmobBannerSize.FULL_BANNER,adUnitId: ams.getBannerId())
               ))
             ],
           ),
@@ -254,25 +247,5 @@ class _HomeState extends State<Home> {
       animate = true;
     });
   }
-   void handleEvent(
-      AdmobAdEvent event, Map<String, dynamic> args, String adType) {
-    switch (event) {
-      case AdmobAdEvent.loaded:
-       print('New Admob $adType Ad loaded!');
-        break;
-      case AdmobAdEvent.opened:
-        print('Admob $adType Ad opened!');
-        break;
-      case AdmobAdEvent.closed:
-        print('Admob $adType Ad closed!');
-        break;
-      case AdmobAdEvent.failedToLoad:
-        print('Admob $adType failed to load. :(');
-        break;
-      case AdmobAdEvent.rewarded:
-       print('rewarded');
-        break;
-      default:
-    }
-  }
+  
 }

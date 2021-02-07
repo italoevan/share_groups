@@ -1,4 +1,4 @@
-import 'package:admob_flutter/admob_flutter.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:sharegroups/helper/admob_service.dart';
@@ -119,9 +119,7 @@ class _PostsState extends State<Posts> {
                   Expanded(
                       child: Container(
                           width: width,
-                          child: AdmobBanner(
-                              adSize: AdmobBannerSize.FULL_BANNER,
-                              adUnitId: ams.getBannerId())))
+                          child: Container()))
                 ],
               ),
             )),
