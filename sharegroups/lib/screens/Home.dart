@@ -118,10 +118,7 @@ class _HomeState extends State<Home> {
       body: Stack(
         children: [
           Container(color: Theme.of(context).primaryColor),
-          Column(
-            children: [
-              Container(
-                height: height * 0.8,
+          Container(
                 child: FutureBuilder(
               future: getTiles(firestore).then((value) => documents = value),
               builder: (context, snapshot) {
@@ -171,12 +168,6 @@ class _HomeState extends State<Home> {
                 }
               }),
               ),
-              Expanded(child:Container(
-                width: width,
-                child: Container()//AdmobBanner(adSize:AdmobBannerSize.FULL_BANNER,adUnitId: ams.getBannerId())
-              ))
-            ],
-          ),
           Observer(builder: (context) {
             return Center(
                 child: Container(

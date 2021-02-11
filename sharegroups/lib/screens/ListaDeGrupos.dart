@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -8,6 +7,7 @@ import 'package:sharegroups/screens/CriarPost.dart';
 import 'package:sharegroups/screens/Posts.dart';
 import 'package:sharegroups/stores/storeGeral.dart';
 import 'package:sharegroups/widgets/tiles/ListaDeGruposTile.dart';
+import 'package:firebase_admob/firebase_admob.dart';
 
 class ListaDeGrupos extends StatefulWidget {
   String nomeTag;
@@ -23,22 +23,31 @@ class _ListaDeGruposState extends State<ListaDeGrupos> {
   ModelPost postGeral;
   StoreGeral storeGeral;
   AdmobService ams = AdmobService();
+   InterstitialAd myInterstitial = InterstitialAd(
+  adUnitId: AdmobService().getInterstitialAdUnitId(),
+  targetingInfo: AdmobService().targetingInfo,
+  listener: (MobileAdEvent event) {
+    print("InterstitialAd event is $event");
+    if(event == MobileAdEvent.opened){
+    }
+  },
+);
+
 
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     storeGeral = Provider.of<StoreGeral>(context);
-  
   }
 
   @override
   void initState() {
     // TODO: implement initState
     print("ListaDeGrupos()");
+    myInterstitial.load().whenComplete(() => myInterstitial.show());
     super.initState();
     data = widget.querySnapshot;
-   
   }
 
   @override
@@ -88,47 +97,40 @@ class _ListaDeGruposState extends State<ListaDeGrupos> {
         ],
       ),
       body: widget.querySnapshot.length != 0
-          ? Column(children: [
-            Container(
-              height: height * 0.8,
+          ? Container(
               child: ListView.builder(
-              itemBuilder: (context, i) {
-                return GestureDetector(
-                    onTap: () {
-                      Map<String, dynamic> map = {
-                        'nome_grupo': data[i].data()['nome_grupo'],
-                        'apelido': data[i].data()['apelido'],
-                        'data': data[i].data()['data'],
-                        'link_grupo': data[i].data()['link_grupo'],
-                        'descricao': data[i].data()['descricao'],
-                        'idUsuario': data[i].data()['idUsuario'],
-                        'imageUrl': data[i].data()['imageUrl']
-                      };
+                  itemBuilder: (context, i) {
+                    return GestureDetector(
+                        onTap: () {
+                          Map<String, dynamic> map = {
+                            'nome_grupo': data[i].data()['nome_grupo'],
+                            'apelido': data[i].data()['apelido'],
+                            'data': data[i].data()['data'],
+                            'link_grupo': data[i].data()['link_grupo'],
+                            'descricao': data[i].data()['descricao'],
+                            'idUsuario': data[i].data()['idUsuario'],
+                            'imageUrl': data[i].data()['imageUrl']
+                          };
 
-                      ModelPost post = ModelPost.fromMap(map);
-                      postGeral = post;
+                          ModelPost post = ModelPost.fromMap(map);
+                          postGeral = post;
 
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  Posts(post, widget.nomeTag)));
-                    },
-                    child: ListaDeGruposTile(data[i])
-                    /*
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      Posts(post, widget.nomeTag)));
+                        },
+                        child: ListaDeGruposTile(data[i])
+                        /*
                 Text(data[i].data()['nome_grupo'], style: TextStyle(color: Colors.white),), //
 
                  */
 
-                    );
-              },
-              itemCount: data.length),
-            ),
-             Expanded(child:Container(
-               width: width,
-                child: Container()//AdmobBanner(adSize:AdmobBannerSize.FULL_BANNER,adUnitId: ams.getBannerId())
-              ))
-          ],)
+                        );
+                  },
+                  itemCount: data.length),
+            )
           : Container(
               child: Center(
                 child: Column(
@@ -151,7 +153,4 @@ class _ListaDeGruposState extends State<ListaDeGrupos> {
             ),
     );
   }
-
-
-  
 }

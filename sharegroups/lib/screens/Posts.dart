@@ -1,5 +1,6 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
 import 'package:sharegroups/helper/admob_service.dart';
 import 'package:sharegroups/models/ModelPost.dart';
@@ -16,6 +17,17 @@ class Posts extends StatefulWidget {
 
 class _PostsState extends State<Posts> {
   AdmobService ams = AdmobService();
+   InterstitialAd myInterstitial = InterstitialAd(
+  adUnitId: AdmobService().getInterstitialAdUnitId(),
+  targetingInfo: AdmobService().targetingInfo,
+  listener: (MobileAdEvent event) {
+    print("InterstitialAd event is $event");
+    if(event == MobileAdEvent.opened){
+    }
+  },
+);
+
+
   GlobalKey<ScaffoldState> key = GlobalKey<ScaffoldState>();
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
@@ -23,6 +35,7 @@ class _PostsState extends State<Posts> {
   void initState() {
     // TODO: implement initState
     print("Posts()");
+    myInterstitial.load().whenComplete(() => myInterstitial.show());
     super.initState();
   }
 
@@ -39,11 +52,9 @@ class _PostsState extends State<Posts> {
             SingleChildScrollView(child:Container(
               height: height,
               width: width,
-              child: Column(
-                children: [
-                  SafeArea(
+              child:  SafeArea(
                     child: Container(
-                      height: height * 0.87,
+                     
                       child: SingleChildScrollView(
                           child: Container(
                               child: Column(
@@ -116,12 +127,6 @@ class _PostsState extends State<Posts> {
                       ))),
                     ),
                   ),
-                  Expanded(
-                      child: Container(
-                          width: width,
-                          child: Container()))
-                ],
-              ),
             )),
             Positioned(
                 left: 12,
@@ -183,7 +188,7 @@ class _PostsState extends State<Posts> {
                   borderRadius: BorderRadius.all(Radius.circular(23))),
               title: Container(
                 child: Text(
-                  'O que há de errado, nos conte.',
+                  'O que hรก de errado, nos conte.',
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 18,
