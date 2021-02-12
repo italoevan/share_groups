@@ -45,7 +45,7 @@ class _CriarPostState extends State<CriarPost> {
     return Scaffold(
       key: key,
       appBar: AppBar(
-        title: Text("Criar Post em ${widget.tagname}"),
+        title: Text("Create post on ${widget.tagname}"),
         centerTitle: true,
         elevation: 0,
       ),
@@ -65,20 +65,20 @@ class _CriarPostState extends State<CriarPost> {
                         decoration: InputDecoration(
                             errorText: storeCriarPost.nomeGrupoComputed
                                 ? null
-                                : "O nome do grupo tem que ter entre 5 e 17 letras.",
+                                : "The group name must be between 5 and 17 letters.",
                             fillColor: Colors.white,
                             filled: true,
-                            labelText: "Nome do Grupo"),
+                            labelText: "Group's name"),
                         onChanged: storeCriarPost.setNome_grupo,
                       ),
                       TextField(
                         decoration: InputDecoration(
                             errorText: storeCriarPost.linkGrupoComputed
                                 ? null
-                                : "O link não pode estar vazio.",
+                                : "The link must not be empty.",
                             fillColor: Colors.white,
                             filled: true,
-                            labelText: "Link do grupo"),
+                            labelText: "Group link"),
                         onChanged: storeCriarPost.setLink_grupo,
                       ),
                       TextField(
@@ -87,10 +87,10 @@ class _CriarPostState extends State<CriarPost> {
                         decoration: InputDecoration(
                             errorText: storeCriarPost.descricaoComputed
                                 ? null
-                                : "A descrição tem que ter entre 20 e 88 caracteres.",
+                                : "The description must be between 20 and 88 characters long.",
                             filled: true,
                             fillColor: Colors.white,
-                            labelText: "Descricao"),
+                            labelText: "Description"),
                         onChanged: storeCriarPost.setDescricao,
                       ),
                       Divider(
@@ -103,7 +103,7 @@ class _CriarPostState extends State<CriarPost> {
                                 borderRadius: BorderRadius.circular(12)),
                             color: Colors.green,
                             onPressed: getImage,
-                            child: Text("Escolher foto",
+                            child: Text("Choose Photo",
                                 style: TextStyle(
                                     color: Colors.white, fontSize: 20))),
                       ),
@@ -128,9 +128,9 @@ class _CriarPostState extends State<CriarPost> {
                               : () {
                                   key.currentState.showSnackBar(SnackBar(
                                       content:
-                                          Text("Requisitos não cumpridos.")));
+                                          Text("Error.")));
                                 },
-                          child: Text("Salvar",
+                          child: Text("Create",
                               style:
                                   TextStyle(color: Colors.white, fontSize: 20)),
                         ),
@@ -189,7 +189,7 @@ class _CriarPostState extends State<CriarPost> {
             return AlertDialog(
               content: Container(
                   child: Text(
-                      "Concluido, agora espere a moderação verificar se seu grupo cumpre com os requisitos necessários.")),
+                      "Wait for your post to be approved.")),
             );
           });
     });

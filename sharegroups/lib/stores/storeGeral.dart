@@ -35,6 +35,12 @@ abstract class _StoreGeral with Store {
   bool carregandoGeral = false;
 
   @action
+  void carregandoGeralToTrue()=> carregandoGeral = true;
+
+  @action
+  void carregandoGeralToFalse()=> carregandoGeral = false;
+
+  @action
   void changeCarregandoGeral()=> carregandoGeral = !carregandoGeral;
 
 }

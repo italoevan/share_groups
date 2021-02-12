@@ -82,7 +82,7 @@ class _LoginState extends State<Login> {
                               }),
                           filled: true,
                           fillColor: Colors.white,
-                          labelText: "Senha"),
+                          labelText: "Password"),
                       onChanged: loginStore.setSenha,
                     );
                   }),
@@ -104,7 +104,7 @@ class _LoginState extends State<Login> {
                             print(loginStore.email);
                           },
                           child: Text(
-                            "Logar",
+                            "Sign in",
                             style: TextStyle(color: Colors.white),
                           ),
                         ),
@@ -118,7 +118,7 @@ class _LoginState extends State<Login> {
                             onPressed: () {
                               Navigator.pushNamed(context, '/cadastro');
                             },
-                            child: Text("Cadastrar",
+                            child: Text("Sign up",
                                 style: TextStyle(color: Colors.white))),
                       ),
                     ],

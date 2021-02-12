@@ -34,7 +34,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     Padding(
                       padding: EdgeInsets.all(8),
                       child: Text(
-                        "Olá ${storeGeral.apelido}",
+                        "Hello ${storeGeral.apelido}",
                         style: TextStyle(
                             fontSize: 18,
                             color: Colors.white,
@@ -61,17 +61,19 @@ class _CustomDrawerState extends State<CustomDrawer> {
                         launch(
                             'https://play.google.com/store/apps/details?id=com.evinc.sharegroups');
                       },
-                      'Nos avalie',
+                      'Rate Us',
                       Icons.star,
                       colorIcon: Colors.orange,
                     ),
                     Spacer(),
                     Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Image.asset(
-                        'assets/images/wave.png',
-                        fit: BoxFit.cover,
-                      ),
+                      alignment: Alignment.bottomRight,
+                      child: Padding(
+                          padding: EdgeInsets.all(8),
+                          child: Text(
+                            "ÉVINC",
+                            style: TextStyle(color: Colors.white),
+                          )),
                     )
                   ],
                 );

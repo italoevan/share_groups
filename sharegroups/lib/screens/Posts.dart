@@ -16,16 +16,6 @@ class Posts extends StatefulWidget {
 }
 
 class _PostsState extends State<Posts> {
-  AdmobService ams = AdmobService();
-   InterstitialAd myInterstitial = InterstitialAd(
-  adUnitId: AdmobService().getInterstitialAdUnitId(),
-  targetingInfo: AdmobService().targetingInfo,
-  listener: (MobileAdEvent event) {
-    print("InterstitialAd event is $event");
-    if(event == MobileAdEvent.opened){
-    }
-  },
-);
 
 
   GlobalKey<ScaffoldState> key = GlobalKey<ScaffoldState>();
@@ -35,7 +25,7 @@ class _PostsState extends State<Posts> {
   void initState() {
     // TODO: implement initState
     print("Posts()");
-    myInterstitial.load().whenComplete(() => myInterstitial.show());
+ 
     super.initState();
   }
 
@@ -98,7 +88,7 @@ class _PostsState extends State<Posts> {
                                     _launchURL();
                                   },
                                   child: Text(
-                                    "Entrar",
+                                    "JOIN",
                                     style: TextStyle(
                                         fontSize: 30, color: Colors.white),
                                   ),
@@ -116,7 +106,7 @@ class _PostsState extends State<Posts> {
                                   reportar(height,firestore);
                                 },
                                 child: Text(
-                                  "REPORTAR",
+                                  "Report",
                                   style: TextStyle(
                                       fontSize: 30, color: Colors.white),
                                 ),
@@ -188,7 +178,7 @@ class _PostsState extends State<Posts> {
                   borderRadius: BorderRadius.all(Radius.circular(23))),
               title: Container(
                 child: Text(
-                  'O que hรก de errado, nos conte.',
+                  'What\'s the problem?',
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 18,
@@ -212,7 +202,7 @@ class _PostsState extends State<Posts> {
                     SizedBox(
                       height: 50,
                       child: RaisedButton(
-                          child: Text("Enviar",
+                          child: Text("Send",
                               style:
                                   TextStyle(color: Colors.white, fontSize: 30)),
                           shape: RoundedRectangleBorder(
@@ -237,7 +227,7 @@ class _PostsState extends State<Posts> {
                             firestore.collection('reports').doc(widget.modelPost.data).set(mapPost).then((value) {
 
                                 Navigator.pop(context);
-                                key.currentState.showSnackBar(SnackBar(content: Text("Report enviado."),));
+                                key.currentState.showSnackBar(SnackBar(content: Text("Report sent."),));
                             });
                             
                            

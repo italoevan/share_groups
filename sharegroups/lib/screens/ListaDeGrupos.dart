@@ -143,7 +143,7 @@ class _ListaDeGruposState extends State<ListaDeGrupos> {
                       width: 110,
                     ),
                     Text(
-                      "Não encontramos nada aqui...Ainda.",
+                      "Page without posts yet...",
                       style: TextStyle(color: Colors.white, fontSize: 18),
                       textAlign: TextAlign.center,
                     )

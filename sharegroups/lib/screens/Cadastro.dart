@@ -66,7 +66,7 @@ class _CadastroState extends State<Cadastro> {
                             decoration: InputDecoration(
                                 errorText: cadastroStore.emailComputed
                                     ? null
-                                    : "Mínimo de 10 letras, max de 26.",
+                                    : "Minimum of 10 letters, maximum of 26",
                                 filled: true,
                                 fillColor: Colors.white,
                                 labelText: "Email"),
@@ -79,10 +79,10 @@ class _CadastroState extends State<Cadastro> {
                             decoration: InputDecoration(
                                 errorText: cadastroStore.apelidoComputed
                                     ? null
-                                    : "Mínimo de 3 letras, max de 12.",
+                                    : "Minimum of 3 letters, maximum of 12.",
                                 filled: true,
                                 fillColor: Colors.white,
-                                labelText: "Apelido"),
+                                labelText: "Nickname"),
                             onChanged: cadastroStore.setApelido,
                           ),
                           Divider(
@@ -92,7 +92,7 @@ class _CadastroState extends State<Cadastro> {
                             decoration: InputDecoration(
                                 errorText: cadastroStore.senhaComputed
                                     ? null
-                                    : "Mínimo de 3 letras, max de 10.",
+                                    : "Minimum of 3 letters, maximum of 10.",
                                 suffixIcon: IconButton(
                                     icon: Icon(
                                       Icons.remove_red_eye_sharp,
@@ -103,7 +103,7 @@ class _CadastroState extends State<Cadastro> {
                                     onPressed: cadastroStore.changeVisible),
                                 filled: true,
                                 fillColor: Colors.white,
-                                labelText: "Senha"),
+                                labelText: "Password"),
                             obscureText: !cadastroStore.visible,
                             onChanged: cadastroStore.setSenha,
                           )
@@ -140,9 +140,9 @@ class _CadastroState extends State<Cadastro> {
                             : () {
                                 key.currentState.showSnackBar(SnackBar(
                                     content: Text(
-                                        "Você não preencheu os requisitos.")));
+                                        "Error.")));
                               },
-                        child: Text("Cadastrar",
+                        child: Text("Sign up",
                             style: TextStyle(color: Colors.white)),
                       );
                     },
