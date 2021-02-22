@@ -1,3 +1,4 @@
+import 'package:admob_flutter/admob_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  Usuario fireHelper;
+  Usuario user;
   StoreGeral storeGeral;
   Usuario usuario = Usuario();
   List<DocumentSnapshot> documents;
@@ -36,19 +37,13 @@ class _HomeState extends State<Home> {
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     storeGeral = Provider.of<StoreGeral>(context);
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-
-    //ad
-
-    //
 
     print("Home()");
     waitFire().then((value) {
@@ -62,8 +57,6 @@ class _HomeState extends State<Home> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
-
     super.dispose();
   }
 
@@ -118,6 +111,7 @@ class _HomeState extends State<Home> {
                     ));
                   } else {
                     return ListView.builder(
+                      physics: BouncingScrollPhysics(),
                       itemCount: documents.length,
                       itemBuilder: (context, i) {
                         return GestureDetector(
@@ -143,13 +137,7 @@ class _HomeState extends State<Home> {
                             },
                             child: HomeTile(documents[i].id.toString(), context,
                                 documents[i].data()['img'])
-                            /*
-                        Text(
-                          documents[i].id.toString(),
-                          style: TextStyle(color: Colors.white),
-                        ),
-
-                         */
+                      
                             );
                       },
                     );
@@ -170,12 +158,20 @@ class _HomeState extends State<Home> {
           }),
         ],
       ),
+      bottomNavigationBar: Container(
+        color: Theme.of(context).primaryColor,
+        child: AdmobBanner(
+          listener: (event, Map<String, dynamic> map) {},
+          adSize: AdmobBannerSize.BANNER,
+          adUnitId: ams.getBannerId(),
+        ),
+      ),
     );
   }
 
   Future waitFire() async {
-    fireHelper = await FireHelper.dadosToStoreGeral(auth, firestore);
-    usuario = fireHelper;
+    user = await FireHelper.dadosToStoreGeral(auth, firestore);
+    usuario = user;
     return usuario;
   }
 

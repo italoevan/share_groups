@@ -126,9 +126,8 @@ class _CriarPostState extends State<CriarPost> {
                                   ;
                                 }
                               : () {
-                                  key.currentState.showSnackBar(SnackBar(
-                                      content:
-                                          Text("Error.")));
+                                  key.currentState.showSnackBar(
+                                      SnackBar(content: Text("Error.")));
                                 },
                           child: Text("Create",
                               style:
@@ -184,13 +183,23 @@ class _CriarPostState extends State<CriarPost> {
       Navigator.pushAndRemoveUntil(context,
           MaterialPageRoute(builder: (context) => Home()), (route) => false);
       return showDialog(
+          barrierDismissible: false,
           context: context,
           builder: (context) {
-            return AlertDialog(
-              content: Container(
-                  child: Text(
-                      "Wait for your post to be approved.")),
-            );
+            return Observer(builder: (_) {
+              return AlertDialog(
+                actions: [
+                  FlatButton(
+                      onPressed: () {
+                        storeGeral.carregandoGeralToFalse();
+                        Navigator.pop(context);
+                      },
+                      child: Text("Close"))
+                ],
+                content: Container(
+                    child: Text("Wait for your post to be approved.")),
+              );
+            });
           });
     });
   }

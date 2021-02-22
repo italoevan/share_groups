@@ -1,3 +1,4 @@
+import 'package:admob_flutter/admob_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -7,7 +8,6 @@ import 'package:sharegroups/screens/CriarPost.dart';
 import 'package:sharegroups/screens/Posts.dart';
 import 'package:sharegroups/stores/storeGeral.dart';
 import 'package:sharegroups/widgets/tiles/ListaDeGruposTile.dart';
-import 'package:firebase_admob/firebase_admob.dart';
 
 class ListaDeGrupos extends StatefulWidget {
   String nomeTag;
@@ -23,16 +23,6 @@ class _ListaDeGruposState extends State<ListaDeGrupos> {
   ModelPost postGeral;
   StoreGeral storeGeral;
   AdmobService ams = AdmobService();
-   InterstitialAd myInterstitial = InterstitialAd(
-  adUnitId: AdmobService().getInterstitialAdUnitId(),
-  targetingInfo: AdmobService().targetingInfo,
-  listener: (MobileAdEvent event) {
-    print("InterstitialAd event is $event");
-    if(event == MobileAdEvent.opened){
-    }
-  },
-);
-
 
   @override
   void didChangeDependencies() {
@@ -45,7 +35,7 @@ class _ListaDeGruposState extends State<ListaDeGrupos> {
   void initState() {
     // TODO: implement initState
     print("ListaDeGrupos()");
-    myInterstitial.load().whenComplete(() => myInterstitial.show());
+
     super.initState();
     data = widget.querySnapshot;
   }
@@ -99,6 +89,7 @@ class _ListaDeGruposState extends State<ListaDeGrupos> {
       body: widget.querySnapshot.length != 0
           ? Container(
               child: ListView.builder(
+                physics: BouncingScrollPhysics(),
                   itemBuilder: (context, i) {
                     return GestureDetector(
                         onTap: () {
@@ -151,6 +142,10 @@ class _ListaDeGruposState extends State<ListaDeGrupos> {
                 ),
               ),
             ),
+      bottomNavigationBar: Container(
+        child: AdmobBanner(
+            adUnitId: ams.getBannerId(), adSize: AdmobBannerSize.BANNER),
+      ),
     );
   }
 }
